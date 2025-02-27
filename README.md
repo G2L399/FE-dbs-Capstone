@@ -57,7 +57,7 @@ The project uses `react-router-dom` for handling navigation between different pa
 
 ### How to Create a New Page
 
-1.  **Create a New Page Component:** Create a new file in the src directory (or a subdirectory) with the name page.tsx (or `.jsx`, `.js`, `.ts`). For example, page.tsx.
+1.  **Create a New Page Component:** Create a new folder in the src directory (or a subdirectory) then create a file the name page.tsx (or `.jsx`, `.js`, `.ts`). For example, page.tsx.
 
     ```jsx
     // src/about/page.tsx
@@ -84,26 +84,6 @@ This project uses Tailwind CSS for styling. Tailwind CSS is a utility-first CSS 
 
   ```jsx
   <div className="text-3xl font-bold text-blue-500">Hello, Tailwind CSS!</div>
-  ```
-
-### Customizing Tailwind CSS
-
-- **`tailwind.config.js` (not present but should be created in the root)**: You can customize the Tailwind CSS configuration by creating a `tailwind.config.js` file in the root of your project. This file allows you to modify the default theme, add custom styles, and configure other Tailwind CSS options.
-
-  ```js
-  // tailwind.config.js
-  /** @type {import('tailwindcss').Config} */
-  module.exports = {
-    content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-    theme: {
-      extend: {
-        colors: {
-          "custom-color": "#123456",
-        },
-      },
-    },
-    plugins: [],
-  };
   ```
 
 ## Working with Components
