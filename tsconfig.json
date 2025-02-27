@@ -15,7 +15,8 @@
     "noEmit": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@shadcn/*": ["./src/components/ui/*"]
     }
   },
   "include": ["src"]
