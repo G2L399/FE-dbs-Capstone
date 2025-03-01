@@ -1,8 +1,22 @@
-import React, { useState } from 'react';
-import { FaPlane, FaBuilding, FaCar, FaMapMarkerAlt, FaCalendarAlt, FaUser, FaHome, FaBookmark, FaBell, FaUserCircle, FaSearch } from 'react-icons/fa';
+import { useState } from "react";
+import {
+  FaPlane,
+  FaBuilding,
+  FaCar,
+  FaMapMarkerAlt,
+  FaCalendarAlt,
+  FaUser,
+  FaHome,
+  FaBookmark,
+  FaBell,
+  FaUserCircle,
+  FaSearch,
+} from "react-icons/fa";
+import { Button } from "@shadcn/button";
+import { Link } from "react-router-dom";
 
 function Page() {
-  const [activeTab, setActiveTab] = useState('stays');
+  const [activeTab, setActiveTab] = useState("stays");
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-purple-900 to-purple-950 text-white p-6">
@@ -10,19 +24,22 @@ function Page() {
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">YuDeGo</h1>
         <div className="flex items-center space-x-6">
-          <button className="hover:text-purple-300">
+          <Link to="/" className="hover:text-purple-300">
             <FaHome className="text-xl" />
-          </button>
-          <button className="hover:text-purple-300">
+          </Link>
+          <Link to="/bookmarks" className="hover:text-purple-300">
             <FaBookmark className="text-xl" />
-          </button>
-          <button className="hover:text-purple-300">
+          </Link>
+          <Link to="/notifications" className="hover:text-purple-300">
             <FaBell className="text-xl" />
-          </button>
-          <button className="flex items-center space-x-2 bg-purple-800/50 px-4 py-2 rounded-full hover:bg-purple-800">
+          </Link>
+          <Link
+            to="/account"
+            className="flex items-center space-x-2 bg-purple-800/50 px-4 py-2 rounded-full hover:bg-purple-800"
+          >
             <FaUserCircle className="text-xl" />
             <span>Account</span>
-          </button>
+          </Link>
         </div>
       </div>
 
@@ -31,29 +48,41 @@ function Page() {
         {/* Tab Navigation */}
         <div className="flex justify-center mb-8">
           <div className="flex bg-purple-800/30 p-2 rounded-xl">
-            <button 
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all ${activeTab === 'flights' ? 'bg-purple-700' : 'hover:bg-purple-800/50'}`}
-              onClick={() => setActiveTab('flights')}
+            <Button
+              className={`flex items-center bg-inherit size-full !px-4 space-x-2 py-3 rounded-lg transition-colors ${
+                activeTab === "flights"
+                  ? "bg-gradient-to-r from-pink-600 to-purple-600 border border-pink-400"
+                  : "hover:bg-purple-800/50"
+              }`}
+              onClick={() => setActiveTab("flights")}
             >
               <FaPlane />
               <span>Flights</span>
-            </button>
-            
-            <button 
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all ${activeTab === 'stays' ? 'bg-gradient-to-r from-pink-600 to-purple-600 border border-pink-400' : 'hover:bg-purple-800/50'}`}
-              onClick={() => setActiveTab('stays')}
+            </Button>
+
+            <Button
+              className={`flex items-center bg-inherit size-full space-x-2 !px-4 py-3 rounded-lg transition-colors ${
+                activeTab === "stays"
+                  ? "bg-gradient-to-r from-pink-600 to-purple-600 border border-pink-400"
+                  : "hover:bg-purple-800/50"
+              }`}
+              onClick={() => setActiveTab("stays")}
             >
               <FaBuilding />
               <span>Stays</span>
-            </button>
-            
-            <button 
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg transition-all ${activeTab === 'cars' ? 'bg-purple-700' : 'hover:bg-purple-800/50'}`}
-              onClick={() => setActiveTab('cars')}
+            </Button>
+
+            <Button
+              className={`flex items-center bg-inherit size-full space-x-2 !px-4 py-3 rounded-lg transition-colors ${
+                activeTab === "cars"
+                  ? "bg-gradient-to-r from-pink-600 to-purple-600 border border-pink-400"
+                  : "hover:bg-purple-800/50"
+              }`}
+              onClick={() => setActiveTab("cars")}
             >
               <FaCar />
               <span>Cars</span>
-            </button>
+            </Button>
           </div>
         </div>
 
@@ -64,114 +93,146 @@ function Page() {
             <div className="flex items-center bg-purple-800/30 rounded-xl p-4">
               <FaMapMarkerAlt className="text-gray-400 mr-3 text-xl" />
               <div className="flex flex-col">
-                <label className="text-xs text-gray-300 mb-1">Destination</label>
-                <input type="text" placeholder="Add location" className="bg-transparent text-white outline-none" />
+                <label className="text-xs text-gray-300 mb-1">
+                  Destination
+                </label>
+                <input
+                  type="text"
+                  placeholder="Add location"
+                  className="bg-transparent text-white outline-none"
+                />
               </div>
             </div>
-            
+
             {/* Date */}
             <div className="flex items-center bg-purple-800/30 rounded-xl p-4">
               <FaCalendarAlt className="text-gray-400 mr-3 text-xl" />
               <div className="flex flex-col">
-                <label className="text-xs text-gray-300 mb-1">Check-in - Check-out</label>
+                <label className="text-xs text-gray-300 mb-1">
+                  Check-in - Check-out
+                </label>
                 <span className="text-white">Wed, Feb 28 - Thu, March 1</span>
               </div>
             </div>
-            
+
             {/* Guests */}
             <div className="flex items-center bg-purple-800/30 rounded-xl p-4">
               <FaUser className="text-gray-400 mr-3 text-xl" />
               <div className="flex flex-col">
                 <label className="text-xs text-gray-300 mb-1">Guests</label>
-                <span className="text-white">1 room - 2 adults - no children</span>
+                <span className="text-white">
+                  1 room - 2 adults - no children
+                </span>
               </div>
             </div>
           </div>
-          
+
           {/* Search Button */}
           <div className="flex justify-center">
-            <button className="flex items-center space-x-2 bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-8 rounded-full shadow-lg transition-all">
+            <Button className="flex items-center  bg-purple-600 hover:bg-purple-700 text-white font-medium text-base !py-6 !px-8 rounded-full shadow-lg transition-all">
               <FaSearch />
               <span>Search</span>
-            </button>
+            </Button>
           </div>
         </div>
-        
+
         {/* Ideas Section */}
         <div className="mb-10">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Ideas for your next trip</h2>
-            <button className="text-purple-300 hover:text-purple-200">View all</button>
+            <Button className="text-purple-300 bg-inherit shaow-none hover:text-purple-200 text-base">
+              View all
+            </Button>
           </div>
-          
+
           {/* Destination Cards - Grid Layout */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
               <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">Popular</div>
+                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
+                  Popular
+                </div>
                 <h3 className="text-lg font-bold">Bali, Indonesia</h3>
-                <p className="text-sm text-gray-200">Explore paradise islands</p>
+                <p className="text-sm text-gray-200">
+                  Explore paradise islands
+                </p>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
               <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">Best Deals</div>
+                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
+                  Best Deals
+                </div>
                 <h3 className="text-lg font-bold">Paris, France</h3>
                 <p className="text-sm text-gray-200">City of lights and love</p>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
               <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">Weekend Getaway</div>
+                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
+                  Weekend Getaway
+                </div>
                 <h3 className="text-lg font-bold">New York City, USA</h3>
-                <p className="text-sm text-gray-200">The city that never sleeps</p>
+                <p className="text-sm text-gray-200">
+                  The city that never sleeps
+                </p>
               </div>
             </div>
-            
+
             <div className="bg-gradient-to-r from-indigo-500 to-blue-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
               <div className="absolute inset-0 flex flex-col justify-end p-4">
-                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">Family Friendly</div>
+                <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
+                  Family Friendly
+                </div>
                 <h3 className="text-lg font-bold">Tokyo, Japan</h3>
-                <p className="text-sm text-gray-200">Blend of tradition and future</p>
+                <p className="text-sm text-gray-200">
+                  Blend of tradition and future
+                </p>
               </div>
             </div>
           </div>
         </div>
-        
+
         {/* Featured Deals Section */}
         <div className="mb-10">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Featured Deals</h2>
-            <button className="text-purple-300 hover:text-purple-200">See more</button>
+            <button className="text-purple-300 hover:text-purple-200">
+              See more
+            </button>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
               <div className="bg-purple-500 h-32"></div>
               <div className="p-4">
                 <h3 className="font-bold mb-1">Luxury Resort</h3>
-                <p className="text-sm text-gray-300 mb-2">Maldives • 7 nights</p>
+                <p className="text-sm text-gray-300 mb-2">
+                  Maldives • 7 nights
+                </p>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold">$1,299</span>
                   <span className="text-sm text-green-400">20% OFF</span>
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
               <div className="bg-blue-500 h-32"></div>
               <div className="p-4">
                 <h3 className="font-bold mb-1">City Break</h3>
-                <p className="text-sm text-gray-300 mb-2">Barcelona • 3 nights</p>
+                <p className="text-sm text-gray-300 mb-2">
+                  Barcelona • 3 nights
+                </p>
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold">$649</span>
                   <span className="text-sm text-green-400">15% OFF</span>
                 </div>
               </div>
             </div>
-            
+
             <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
               <div className="bg-pink-500 h-32"></div>
               <div className="p-4">
@@ -186,45 +247,88 @@ function Page() {
           </div>
         </div>
       </div>
-      
+
       {/* Footer */}
       <div className="max-w-7xl mx-auto border-t border-purple-800 mt-10 pt-6 pb-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
             <h3 className="text-lg font-bold mb-4">LifeTrip</h3>
-            <p className="text-sm text-gray-300">Find your perfect trip, designed by insiders who know and love their cities.</p>
+            <p className="text-sm text-gray-300">
+              Find your perfect trip, designed by insiders who know and love
+              their cities.
+            </p>
           </div>
-          
+
           <div>
             <h3 className="text-sm font-bold mb-4 uppercase">Company</h3>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li><a href="#" className="hover:text-white">About us</a></li>
-              <li><a href="#" className="hover:text-white">Careers</a></li>
-              <li><a href="#" className="hover:text-white">Blog</a></li>
-              <li><a href="#" className="hover:text-white">Press</a></li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  About us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Careers
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Blog
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Press
+                </a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-sm font-bold mb-4 uppercase">Support</h3>
             <ul className="text-sm text-gray-300 space-y-2">
-              <li><a href="#" className="hover:text-white">Help Center</a></li>
-              <li><a href="#" className="hover:text-white">Contact us</a></li>
-              <li><a href="#" className="hover:text-white">Privacy policy</a></li>
-              <li><a href="#" className="hover:text-white">Terms of service</a></li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Help Center
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Contact us
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Privacy policy
+                </a>
+              </li>
+              <li>
+                <a href="#" className="hover:text-white">
+                  Terms of service
+                </a>
+              </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="text-sm font-bold mb-4 uppercase">Stay connected</h3>
-            <p className="text-sm text-gray-300 mb-4">Subscribe to our newsletter</p>
+            <p className="text-sm text-gray-300 mb-4">
+              Subscribe to our newsletter
+            </p>
             <div className="flex">
-              <input type="email" placeholder="Your email" className="bg-purple-800/30 rounded-l-lg px-4 py-2 outline-none flex-1" />
-              <button className="bg-purple-600 rounded-r-lg px-4 py-2">Subscribe</button>
+              <input
+                type="email"
+                placeholder="Your email"
+                className="bg-purple-800/30 rounded-l-lg px-4 py-2 outline-none flex-1"
+              />
+              <Button className="bg-purple-600 font-normal rounded-none size-full rounded-r-lg px-4 py-2 hover:bg-purple-600/90">
+                Subscribe
+              </Button>
             </div>
           </div>
         </div>
-        
+
         <div className="text-center text-sm text-gray-400">
           &copy; 2025 YuDeGo. All rights reserved.
         </div>
