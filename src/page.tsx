@@ -14,6 +14,7 @@ import {
 } from "react-icons/fa";
 import { Button } from "@shadcn/button";
 import { Link } from "react-router-dom";
+import { cn } from "./lib/utils";
 
 function Page() {
   const [activeTab, setActiveTab] = useState("stays");
@@ -146,8 +147,17 @@ function Page() {
           </div>
 
           {/* Destination Cards - Grid Layout */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-gradient-to-r from-pink-500 to-purple-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
+          <div
+            className={cn(
+              "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6",
+              "*:hover:scale-105 *:transition-all *:duration-200 *:ease-in-out",
+              "*:rounded-xl *:overflow-hidden *:h-60 *:relative *:shadow-lg"
+            )}
+          >
+            <Link
+              to={"#"}
+              className={cn("bg-gradient-to-r from-pink-500 to-purple-500")}
+            >
               <div className="absolute inset-0 flex flex-col justify-end p-4">
                 <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
                   Popular
@@ -157,9 +167,12 @@ function Page() {
                   Explore paradise islands
                 </p>
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
+            <Link
+              to={"#"}
+              className={cn("bg-gradient-to-r from-blue-500 to-purple-500")}
+            >
               <div className="absolute inset-0 flex flex-col justify-end p-4">
                 <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
                   Best Deals
@@ -167,9 +180,12 @@ function Page() {
                 <h3 className="text-lg font-bold">Paris, France</h3>
                 <p className="text-sm text-gray-200">City of lights and love</p>
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-gradient-to-r from-purple-500 to-indigo-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
+            <Link
+              to={"#"}
+              className={cn("bg-gradient-to-r from-purple-500 to-indigo-500 ")}
+            >
               <div className="absolute inset-0 flex flex-col justify-end p-4">
                 <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
                   Weekend Getaway
@@ -179,9 +195,12 @@ function Page() {
                   The city that never sleeps
                 </p>
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-gradient-to-r from-indigo-500 to-blue-500 rounded-xl overflow-hidden h-60 relative shadow-lg">
+            <Link
+              to={"#"}
+              className={cn("bg-gradient-to-r from-indigo-500 to-blue-500 ")}
+            >
               <div className="absolute inset-0 flex flex-col justify-end p-4">
                 <div className="bg-black/30 px-2 py-1 rounded text-xs w-fit mb-2">
                   Family Friendly
@@ -191,7 +210,7 @@ function Page() {
                   Blend of tradition and future
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
 
@@ -199,13 +218,21 @@ function Page() {
         <div className="mb-10">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-xl font-semibold">Featured Deals</h2>
-            <button className="text-purple-300 hover:text-purple-200">
+            <Button className="text-purple-300 hover:text-purple-200">
               See more
-            </button>
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
+          <div
+            className={cn(
+              "grid grid-cols-1 md:grid-cols-3 gap-6",
+              "*:hover:scale-105 *:transition-all *:duration-200 *:ease-in-out"
+            )}
+          >
+            <Link
+              to={"/#"}
+              className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg"
+            >
               <div className="bg-purple-500 h-32"></div>
               <div className="p-4">
                 <h3 className="font-bold mb-1">Luxury Resort</h3>
@@ -217,9 +244,12 @@ function Page() {
                   <span className="text-sm text-green-400">20% OFF</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
+            <Link
+              to={"/#"}
+              className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg"
+            >
               <div className="bg-blue-500 h-32"></div>
               <div className="p-4">
                 <h3 className="font-bold mb-1">City Break</h3>
@@ -231,9 +261,12 @@ function Page() {
                   <span className="text-sm text-green-400">15% OFF</span>
                 </div>
               </div>
-            </div>
+            </Link>
 
-            <div className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg">
+            <Link
+              to={"/#"}
+              className="bg-purple-800/30 rounded-xl overflow-hidden shadow-lg"
+            >
               <div className="bg-pink-500 h-32"></div>
               <div className="p-4">
                 <h3 className="font-bold mb-1">Beach Getaway</h3>
@@ -243,7 +276,7 @@ function Page() {
                   <span className="text-sm text-green-400">25% OFF</span>
                 </div>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </div>
