@@ -5,6 +5,7 @@ import {
   createRoutesFromElements,
   RouterProvider,
 } from "react-router-dom";
+import Layout from "./layout";
 
 //
 const pages = import.meta.glob("./**/page.{tsx,jsx,js,ts}");
@@ -24,7 +25,11 @@ const router = (route) => {
     const NewElement = React.lazy(() => Promise.resolve(item.element()));
     return {
       path: item.path,
-      element: <NewElement />,
+      element: (
+        <Layout>
+          <NewElement />
+        </Layout>
+      ),
     };
   });
   return createBrowserRouter(
@@ -43,14 +48,11 @@ function App() {
       element: pages[key],
     };
   });
-  console.log(routes);
 
   return (
-    <>
-      <React.Suspense fallback={<div>Loading...</div>}>
-        <RouterProvider router={router(routes)} />
-      </React.Suspense>
-    </>
+    <React.Suspense fallback={<div>Loading...</div>}>
+      <RouterProvider router={router(routes)} />
+    </React.Suspense>
   );
 }
 
