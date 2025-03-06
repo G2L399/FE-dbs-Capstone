@@ -27,7 +27,9 @@ const router = (route) => {
       path: item.path,
       element: (
         <Layout>
-          <NewElement />
+          <main className="grow">
+            <NewElement />
+          </main>
         </Layout>
       ),
     };
