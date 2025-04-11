@@ -1,75 +1,75 @@
-import React, { useState, useEffect  } from 'react';
-import { FaMapMarkerAlt, FaCalendarAlt, FaUser } from 'react-icons/fa';
-import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { id } from 'date-fns/locale';
-import 'slick-carousel/slick/slick.css'; 
-import 'slick-carousel/slick/slick-theme.css'; 
+import React, { useState, useEffect } from "react";
+import { FaMapMarkerAlt, FaCalendarAlt, FaUser } from "react-icons/fa";
+import { motion } from "framer-motion";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { id } from "date-fns/locale";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 // Sample data for hotels (you can replace this with API data)
 const hotels = [
   {
-    name: 'Fairmont Resort, Dubai, United Arab Emirates',
-    location: 'Dubai, UAE',
+    name: "Fairmont Resort, Dubai, United Arab Emirates",
+    location: "Dubai, UAE",
     rating: 4.96,
     reviews: 672,
     stars: 5,
     amenities: 20,
     price: 2349,
-    image: 'https://via.placeholder.com/300x200',
+    image: "https://via.placeholder.com/300x200",
   },
   {
-    name: 'Fairmont Resort, Dubai, United Arab Emirates',
-    location: 'Dubai, UAE',
+    name: "Fairmont Resort, Dubai, United Arab Emirates",
+    location: "Dubai, UAE",
     rating: 4.96,
     reviews: 672,
     stars: 5,
     amenities: 20,
     price: 2349,
-    image: 'https://via.placeholder.com/300x200',
+    image: "https://via.placeholder.com/300x200",
   },
   {
-    name: 'Fairmont Resort, Dubai, United Arab Emirates',
-    location: 'Dubai, UAE',
+    name: "Fairmont Resort, Dubai, United Arab Emirates",
+    location: "Dubai, UAE",
     rating: 4.96,
     reviews: 672,
     stars: 5,
     amenities: 20,
     price: 2349,
-    image: 'https://via.placeholder.com/300x200',
+    image: "https://via.placeholder.com/300x200",
   },
 ];
 
 const SearchResults = () => {
-    const today = new Date();
-        const tomorrow = new Date(today);
-        tomorrow.setDate(today.getDate() + 1);
-        // State to manage form inputs
-      const [location, setLocation] = useState('Jakarta, IDN');
-      const [checkIn    , setCheckIn] = useState(today); // Default to today
-      const [checkOut, setCheckOut] = useState(tomorrow); // Default to tomorrow
-      const [guests, setGuests] = useState('2 adults, 1 children');
-      const locationOptions = [
-        'Jakarta, IDN',
-        'Bali, IDN',
-        'Yogyakarta, IDN',
-        'Bandung, IDN',
-        'Surabaya, IDN',
-        'Medan, IDN',
-      ];
-    
-      const guestOptions = [
-        '1 adult',
-        '2 adults',
-        '2 adults, 1 child',
-        '2 adults, 2 children',
-        '3 adults',
-        '3 adults, 1 child',
-        '4 adults',
-      ];
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  // State to manage form inputs
+  const [location, setLocation] = useState("Jakarta, IDN");
+  const [checkIn, setCheckIn] = useState(today); // Default to today
+  const [checkOut, setCheckOut] = useState(tomorrow); // Default to tomorrow
+  const [guests, setGuests] = useState("2 adults, 1 children");
+  const locationOptions = [
+    "Jakarta, IDN",
+    "Bali, IDN",
+    "Yogyakarta, IDN",
+    "Bandung, IDN",
+    "Surabaya, IDN",
+    "Medan, IDN",
+  ];
+
+  const guestOptions = [
+    "1 adult",
+    "2 adults",
+    "2 adults, 1 child",
+    "2 adults, 2 children",
+    "3 adults",
+    "3 adults, 1 child",
+    "4 adults",
+  ];
   // State for filters and pagination
   const [priceRange, setPriceRange] = useState([100, 1000]);
   const [rating, setRating] = useState([]);
@@ -130,98 +130,94 @@ const SearchResults = () => {
     }
   }, [checkIn, checkOut]);
   return (
-    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
-      {/* Navbar */}
-      <Navbar />
-
+    <div className="bg-gradient-to-b from-blue-50 to-white min-h-screen">
       {/* Hero Section with Search Bar */}
       <motion.section
         className="relative bg-cover bg-center h-[400px] flex items-center justify-center text-white"
-        style={{ backgroundImage: 'url(https://via.placeholder.com/1920x400)' }}
+        style={{ backgroundImage: "url(https://via.placeholder.com/1920x400)" }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-teal-500 opacity-70"></div>
+        <div className="bg-gradient-to-r from-blue-600 to-teal-500 opacity-70 absolute inset-0"></div>
         <div className="relative z-10 text-center">
           {/* Search Form */}
-                  <motion.div
-                     className="bg-white p-4 rounded-lg shadow-lg flex flex-col md:flex-row gap-2 max-w-5xl mx-auto"
-                     variants={fadeInUp}
-                     initial="hidden"
-                     animate="visible"
-                   >
-                     {/* Location */}
-                     <div className="flex-1 relative">
-                       <select
-                         value={location}
-                         onChange={(e) => setLocation(e.target.value)}
-                         className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                       >
-                         {locationOptions.map((option, index) => (
-                           <option key={index} value={option}>
-                             {option}
-                           </option>
-                         ))}
-                       </select>
-                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                       </span>
-                     </div>
-         
-                     {/* Check In */}
-                     <div className="flex-1 relative">
-                       <DatePicker
-                         selected={checkIn}
-                         onChange={(date) => setCheckIn(date)}
-                         minDate={new Date()} // Prevent past dates
-                         dateFormat="dd MMMM yyyy"
-                         locale={id} // Set locale to Indonesian
-                         className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                         placeholderText="Check In"
-                       />
-                       <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                         📅
-                       </span>
-                     </div>
-         
-                     {/* Check Out */}
-                     <div className="flex-1 relative">
-                       <DatePicker
-                         selected={checkOut}
-                         onChange={(date) => setCheckOut(date)}
-                         minDate={
-                           checkIn
-                             ? new Date(checkIn).setDate(new Date(checkIn).getDate() + 1)
-                             : new Date()
-                         }
-                         dateFormat="dd MMMM yyyy"
-                         locale={id} // Set locale to Indonesian
-                         className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                         placeholderText="Check Out"
-                       />
-                       <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                         📅
-                       </span>
-                     </div>
-         
-                     {/* Guests */}
-                     <div className="flex-1 relative">
-                       <select
-                         value={guests}
-                         onChange={(e) => setGuests(e.target.value)}
-                         className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                       >
-                         {guestOptions.map((option, index) => (
-                           <option key={index} value={option}>
-                             {option}
-                           </option>
-                         ))}
-                       </select>
-                       <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-                         👤
-                       </span>
-                     </div>
-            <button className="bg-teal-600 text-white px-6 py-3 rounded-md hover:bg-teal-700 transition font-medium">
+          <motion.div
+            className="md:flex-row flex flex-col max-w-5xl gap-2 p-4 mx-auto bg-white rounded-lg shadow-lg"
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+          >
+            {/* Location */}
+            <div className="relative flex-1">
+              <select
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
+              >
+                {locationOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <span className="left-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2"></span>
+            </div>
+
+            {/* Check In */}
+            <div className="relative flex-1">
+              <DatePicker
+                selected={checkIn}
+                onChange={(date) => setCheckIn(date)}
+                minDate={new Date()} // Prevent past dates
+                dateFormat="dd MMMM yyyy"
+                locale={id} // Set locale to Indonesian
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
+                placeholderText="Check In"
+              />
+              <span className="right-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
+                📅
+              </span>
+            </div>
+
+            {/* Check Out */}
+            <div className="relative flex-1">
+              <DatePicker
+                selected={checkOut}
+                onChange={(date) => setCheckOut(date)}
+                minDate={
+                  checkIn
+                    ? new Date(checkIn).setDate(new Date(checkIn).getDate() + 1)
+                    : new Date()
+                }
+                dateFormat="dd MMMM yyyy"
+                locale={id} // Set locale to Indonesian
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
+                placeholderText="Check Out"
+              />
+              <span className="right-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
+                📅
+              </span>
+            </div>
+
+            {/* Guests */}
+            <div className="relative flex-1">
+              <select
+                value={guests}
+                onChange={(e) => setGuests(e.target.value)}
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
+              >
+                {guestOptions.map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+              <span className="left-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
+                👤
+              </span>
+            </div>
+            <button className="hover:bg-teal-700 px-6 py-3 font-medium text-white transition bg-teal-600 rounded-md">
               Search
             </button>
           </motion.div>
@@ -230,23 +226,23 @@ const SearchResults = () => {
 
       {/* Main Content */}
       <motion.section
-        className="py-16 px-4"
+        className="px-4 py-16"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
+        <div className="max-w-7xl md:flex-row flex flex-col gap-8 mx-auto">
           {/* Filters Sidebar */}
           <motion.div
-            className="md:w-1/4 bg-white p-6 rounded-lg shadow-lg"
+            className="md:w-1/4 p-6 bg-white rounded-lg shadow-lg"
             variants={fadeInUp}
           >
-            <h2 className="text-xl font-bold mb-4 text-teal-600">Filters</h2>
+            <h2 className="mb-4 text-xl font-bold text-teal-600">Filters</h2>
 
             {/* Price Filter */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Price</h3>
+              <h3 className="mb-2 text-lg font-semibold">Price</h3>
               <div className="flex justify-between text-sm text-gray-600">
                 <span>${priceRange[0]}</span>
                 <span>${priceRange[1]}</span>
@@ -257,13 +253,13 @@ const SearchResults = () => {
                 max="1000"
                 value={priceRange}
                 onChange={handlePriceChange}
-                className="w-full accent-teal-600"
+                className="accent-teal-600 w-full"
               />
             </div>
 
             {/* Rating Filter */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Rating</h3>
+              <h3 className="mb-2 text-lg font-semibold">Rating</h3>
               <div className="flex gap-2">
                 {[1, 2, 3, 4].map((star) => (
                   <label key={star} className="flex items-center">
@@ -271,7 +267,7 @@ const SearchResults = () => {
                       type="checkbox"
                       checked={rating.includes(star)}
                       onChange={() => handleRatingChange(star)}
-                      className="mr-2 accent-teal-600"
+                      className="accent-teal-600 mr-2"
                     />
                     {star}+
                   </label>
@@ -281,20 +277,20 @@ const SearchResults = () => {
 
             {/* Freebies Filter */}
             <div className="mb-6">
-              <h3 className="text-lg font-semibold mb-2">Freebies</h3>
+              <h3 className="mb-2 text-lg font-semibold">Freebies</h3>
               {[
-                'Free breakfast',
-                'Free parking',
-                'Free internet',
-                'Free airport shuttle',
-                'Free cancellation',
+                "Free breakfast",
+                "Free parking",
+                "Free internet",
+                "Free airport shuttle",
+                "Free cancellation",
               ].map((freebie) => (
                 <label key={freebie} className="flex items-center mb-2">
                   <input
                     type="checkbox"
                     checked={freebies.includes(freebie)}
                     onChange={() => handleFreebiesChange(freebie)}
-                    className="mr-2 accent-teal-600"
+                    className="accent-teal-600 mr-2"
                   />
                   {freebie}
                 </label>
@@ -303,21 +299,24 @@ const SearchResults = () => {
 
             {/* Amenities Filter */}
             <div>
-              <h3 className="text-lg font-semibold mb-2">Amenities</h3>
-              {['24-hour front desk', 'Air-conditioning', 'Fitness', 'Pool'].map(
-                (amenity) => (
-                  <label key={amenity} className="flex items-center mb-2">
-                    <input
-                      type="checkbox"
-                      checked={amenities.includes(amenity)}
-                      onChange={() => handleAmenitiesChange(amenity)}
-                      className="mr-2 accent-teal-600"
-                    />
-                    {amenity}
-                  </label>
-                )
-              )}
-              <a href="#" className="text-teal-600 text-sm">
+              <h3 className="mb-2 text-lg font-semibold">Amenities</h3>
+              {[
+                "24-hour front desk",
+                "Air-conditioning",
+                "Fitness",
+                "Pool",
+              ].map((amenity) => (
+                <label key={amenity} className="flex items-center mb-2">
+                  <input
+                    type="checkbox"
+                    checked={amenities.includes(amenity)}
+                    onChange={() => handleAmenitiesChange(amenity)}
+                    className="accent-teal-600 mr-2"
+                  />
+                  {amenity}
+                </label>
+              ))}
+              <a href="#" className="text-sm text-teal-600">
                 +24 more
               </a>
             </div>
@@ -331,11 +330,11 @@ const SearchResults = () => {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-semibold text-gray-700">
                 Showing 4 of 257 places
               </h2>
-              <select className="p-2 border rounded-md text-gray-700">
+              <select className="p-2 text-gray-700 border rounded-md">
                 <option>Sort by Recommended</option>
                 <option>Sort by Price: Low to High</option>
                 <option>Sort by Price: High to Low</option>
@@ -345,7 +344,7 @@ const SearchResults = () => {
             {hotels.map((hotel, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-lg shadow-lg flex mb-6 overflow-hidden"
+                className="flex mb-6 overflow-hidden bg-white rounded-lg shadow-lg"
                 variants={fadeInUp}
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
@@ -353,16 +352,16 @@ const SearchResults = () => {
                 <img
                   src={hotel.image}
                   alt={hotel.name}
-                  className="w-1/3 h-48 object-cover"
+                  className="object-cover w-1/3 h-48"
                 />
-                <div className="p-4 flex-1">
+                <div className="flex-1 p-4">
                   <h3 className="text-lg font-semibold text-teal-700">
                     {hotel.name}
                   </h3>
                   <p className="text-sm text-gray-600">{hotel.location}</p>
                   <div className="flex items-center mt-2">
                     <span className="text-yellow-500">
-                      {'★'.repeat(hotel.stars)}
+                      {"★".repeat(hotel.stars)}
                     </span>
                     <span className="ml-2 text-sm text-gray-600">
                       {hotel.stars} Stars Hotel
@@ -372,12 +371,12 @@ const SearchResults = () => {
                     </span>
                   </div>
                   <div className="flex items-center mt-2">
-                    <span className="bg-teal-600 text-white px-3 py-1 rounded-full text-sm">
+                    <span className="px-3 py-1 text-sm text-white bg-teal-600 rounded-full">
                       {hotel.rating} ({hotel.reviews} reviews)
                     </span>
                   </div>
                 </div>
-                <div className="p-4 flex flex-col justify-between items-end">
+                <div className="flex flex-col items-end justify-between p-4">
                   <div className="text-right">
                     <p className="text-sm text-gray-600">Starting From</p>
                     <p className="text-xl font-bold text-teal-600">
@@ -386,10 +385,10 @@ const SearchResults = () => {
                     <p className="text-sm text-gray-500">excl. tax</p>
                   </div>
                   <div className="flex items-center gap-2">
-                    <button className="text-gray-400 hover:text-red-500">
+                    <button className="hover:text-red-500 text-gray-400">
                       ❤️
                     </button>
-                    <button className="bg-teal-600 text-white px-4 py-2 rounded-full hover:bg-teal-700 transition">
+                    <button className="hover:bg-teal-700 px-4 py-2 text-white transition bg-teal-600 rounded-full">
                       View Place
                     </button>
                   </div>
@@ -401,7 +400,7 @@ const SearchResults = () => {
             <div className="flex justify-center mt-6">
               <button
                 onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                className="px-4 py-2 mx-1 bg-gray-200 rounded-md hover:bg-gray-300"
+                className="hover:bg-gray-300 px-4 py-2 mx-1 bg-gray-200 rounded-md"
               >
                 ←
               </button>
@@ -411,23 +410,27 @@ const SearchResults = () => {
                   onClick={() => setCurrentPage(page)}
                   className={`px-4 py-2 mx-1 rounded-md ${
                     currentPage === page
-                      ? 'bg-teal-600 text-white'
-                      : 'bg-gray-200 hover:bg-gray-300'
+                      ? "bg-teal-600 text-white"
+                      : "bg-gray-200 hover:bg-gray-300"
                   }`}
                 >
                   {page}
                 </button>
               ))}
-              <button className="px-4 py-2 mx-1 bg-gray-200 rounded-md">...</button>
+              <button className="px-4 py-2 mx-1 bg-gray-200 rounded-md">
+                ...
+              </button>
               <button
                 onClick={() => setCurrentPage(257)}
-                className="px-4 py-2 mx-1 bg-gray-200 rounded-md hover:bg-gray-300"
+                className="hover:bg-gray-300 px-4 py-2 mx-1 bg-gray-200 rounded-md"
               >
                 257
               </button>
               <button
-                onClick={() => setCurrentPage((prev) => Math.min(prev + 1, 257))}
-                className="px-4 py-2 mx-1 bg-gray-200 rounded-md hover:bg-gray-300"
+                onClick={() =>
+                  setCurrentPage((prev) => Math.min(prev + 1, 257))
+                }
+                className="hover:bg-gray-300 px-4 py-2 mx-1 bg-gray-200 rounded-md"
               >
                 →
               </button>
@@ -438,31 +441,31 @@ const SearchResults = () => {
 
       {/* Newsletter Section */}
       <motion.section
-        className="py-16 px-4 bg-gradient-to-r from-teal-500 to-blue-500 text-white"
+        className="bg-gradient-to-r from-teal-500 to-blue-500 px-4 py-16 text-white"
         variants={fadeInUp}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
       >
-        <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center gap-8">
+        <div className="md:flex-row flex flex-col items-center max-w-5xl gap-8 mx-auto">
           <div className="md:w-1/2">
-            <button className="bg-yellow-400 text-black px-4 py-2 rounded-full mb-4 hover:bg-yellow-500 transition">
+            <button className="hover:bg-yellow-500 px-4 py-2 mb-4 text-black transition bg-yellow-400 rounded-full">
               Join Our Newsletter
             </button>
-            <h2 className="text-3xl font-bold mb-4">
+            <h2 className="mb-4 text-3xl font-bold">
               Subscribe to See Secret Deals Prices Drop the Moment You Sign Up!
             </h2>
             <div className="flex gap-4">
               <input
                 type="email"
                 placeholder="Your Email"
-                className="flex-1 p-3 rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-yellow-400"
+                className="focus:outline-none focus:ring-2 focus:ring-yellow-400 flex-1 p-3 text-gray-700 rounded-md"
               />
-              <button className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition">
+              <button className="hover:bg-gray-800 px-6 py-3 text-white transition bg-black rounded-md">
                 Subscribe
               </button>
             </div>
-            <p className="text-sm mt-4">No ads. No trails. No commitments</p>
+            <p className="mt-4 text-sm">No ads. No trails. No commitments</p>
           </div>
           <div className="md:w-1/2">
             <img
@@ -473,9 +476,6 @@ const SearchResults = () => {
           </div>
         </div>
       </motion.section>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

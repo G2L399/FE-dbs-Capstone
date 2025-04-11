@@ -45,23 +45,25 @@ function ProfilePage() {
   };
 
   const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
-      budget: parseInt(e.target.value)
+      budget: parseInt(e.target.value),
     }));
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h1 className="text-2xl font-bold mb-6">Profile Settings</h1>
-      
+    <div className="max-w-4xl p-6 mx-auto">
+      <h1 className="mb-6 text-2xl font-bold">Profile Settings</h1>
+
       <div className="space-y-6">
-        <div className="bg-purple-800/30 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-4">Travel Preferences</h2>
-          
+        <div className="bg-purple-800/30 rounded-xl p-6">
+          <h2 className="mb-4 text-xl font-semibold">Travel Preferences</h2>
+
           <div className="space-y-4">
             <div>
-              <label className="block text-sm font-medium mb-2">Budget Range</label>
+              <label className="block mb-2 text-sm font-medium">
+                Budget Range
+              </label>
               <input
                 type="range"
                 min="500"
@@ -71,20 +73,27 @@ function ProfilePage() {
                 onChange={handleBudgetChange}
                 className="w-full"
               />
-              <div className="text-right text-sm text-gray-300">
+              <div className="text-sm text-right text-gray-300">
                 ${profile.budget}
               </div>
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Preferred Accommodation</label>
+              <label className="block mb-2 text-sm font-medium">
+                Preferred Accommodation
+              </label>
               <select
                 value={profile.preferences.accommodation}
-                onChange={(e) => setProfile(prev => ({
-                  ...prev,
-                  preferences: { ...prev.preferences, accommodation: e.target.value }
-                }))}
-                className="w-full bg-purple-800/30 border border-purple-700 rounded-lg p-2"
+                onChange={(e) =>
+                  setProfile((prev) => ({
+                    ...prev,
+                    preferences: {
+                      ...prev.preferences,
+                      accommodation: e.target.value,
+                    },
+                  }))
+                }
+                className="bg-purple-800/30 w-full p-2 border border-purple-700 rounded-lg"
               >
                 <option value="hotel">Hotel</option>
                 <option value="hostel">Hostel</option>
@@ -95,17 +104,17 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div className="bg-purple-800/30 p-6 rounded-xl">
-          <h2 className="text-xl font-semibold mb-4">Travel History</h2>
+        <div className="bg-purple-800/30 rounded-xl p-6">
+          <h2 className="mb-4 text-xl font-semibold">Travel History</h2>
           <div className="space-y-4">
-            <div className="flex items-center p-3 bg-purple-700/30 rounded-lg">
+            <div className="bg-purple-700/30 flex items-center p-3 rounded-lg">
               <div className="flex-1">
                 <h3 className="font-medium">Paris, France</h3>
                 <p className="text-sm text-gray-300">December 2023</p>
               </div>
               <div className="text-sm text-gray-300">7 days</div>
             </div>
-            <div className="flex items-center p-3 bg-purple-700/30 rounded-lg">
+            <div className="bg-purple-700/30 flex items-center p-3 rounded-lg">
               <div className="flex-1">
                 <h3 className="font-medium">Tokyo, Japan</h3>
                 <p className="text-sm text-gray-300">October 2023</p>
@@ -131,7 +140,7 @@ function ProfilePage() {
       </div>
 
       {showToast && (
-        <div className="fixed bottom-4 right-4 bg-green-500 text-white px-4 py-2 rounded-lg shadow-lg">
+        <div className="bottom-4 right-4 fixed px-4 py-2 text-white bg-green-500 rounded-lg shadow-lg">
           Profile saved successfully!
         </div>
       )}

@@ -1,13 +1,16 @@
-import { Footer } from "./Footer";
+import { Foot } from "./Footer";
 import { ReactNode } from "react";
 import { Header } from "./Header";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  console.log(children);
+  console.log("children");
+
   return (
     <>
-      <Header className="sticky top-0 bg-purple-900 p-4 mb-8 z-10" />
+      <Header className=" top-0 z-[999] p-4 mb-8" />
       {children}
-      <Footer />
+      <Foot />
     </>
   );
 };

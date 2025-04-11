@@ -1,24 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Slider from 'react-slick'; 
-import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
-import { id } from 'date-fns/locale';
-import { motion } from 'framer-motion'; 
-import 'slick-carousel/slick/slick.css'; 
-import 'slick-carousel/slick/slick-theme.css'; 
-
+import React, { useState, useEffect } from "react";
+import Navbar from "../components/Navbar";
+import Footer from "../components/Footer";
+import Slider from "react-slick";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { id } from "date-fns/locale";
+import { motion } from "framer-motion";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(today.getDate() + 1);
-    // State to manage form inputs
-  const [location, setLocation] = useState('Jakarta, IDN');
+  const today = new Date();
+  const tomorrow = new Date(today);
+  tomorrow.setDate(today.getDate() + 1);
+  // State to manage form inputs
+  const [location, setLocation] = useState("Jakarta, IDN");
   const [checkIn, setCheckIn] = useState(today); // Default to today
   const [checkOut, setCheckOut] = useState(tomorrow); // Default to tomorrow
-  const [guests, setGuests] = useState('2 adults, 1 children');
+  const [guests, setGuests] = useState("2 adults, 1 children");
   const sliderSettings = {
     dots: true,
     infinite: true,
@@ -48,93 +47,93 @@ const Home = () => {
   };
 
   const locationOptions = [
-    'Jakarta, IDN',
-    'Bali, IDN',
-    'Yogyakarta, IDN',
-    'Bandung, IDN',
-    'Surabaya, IDN',
-    'Medan, IDN',
+    "Jakarta, IDN",
+    "Bali, IDN",
+    "Yogyakarta, IDN",
+    "Bandung, IDN",
+    "Surabaya, IDN",
+    "Medan, IDN",
   ];
 
   const guestOptions = [
-    '1 adult',
-    '2 adults',
-    '2 adults, 1 child',
-    '2 adults, 2 children',
-    '3 adults',
-    '3 adults, 1 child',
-    '4 adults',
+    "1 adult",
+    "2 adults",
+    "2 adults, 1 child",
+    "2 adults, 2 children",
+    "3 adults",
+    "3 adults, 1 child",
+    "4 adults",
   ];
 
   // Data for Best Deal Hotels (static for now)
   const bestDeals = [
     {
-      category: 'Luxury',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
+      category: "Luxury",
+      name: "Fairmont Resort, Dubai",
+      location: "Dubai, UAE",
       price: 148.25,
       discount: 25,
-      image: 'https://via.placeholder.com/300x200', // Replace with actual image URL
+      image: "https://via.placeholder.com/300x200", // Replace with actual image URL
     },
     {
-      category: 'Family',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
+      category: "Family",
+      name: "Fairmont Resort, Dubai",
+      location: "Dubai, UAE",
       price: 148.25,
       discount: 28,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
     {
-      category: 'Business',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
+      category: "Business",
+      name: "Fairmont Resort, Dubai",
+      location: "Dubai, UAE",
       price: 148.25,
       discount: 27,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
     {
-      category: 'Standard',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
+      category: "Standard",
+      name: "Fairmont Resort, Dubai",
+      location: "Dubai, UAE",
       price: 148.25,
       discount: 35,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
   ];
 
   // Data for Top Rated Hotels (static for now)
   const topRated = [
     {
-      name: 'Ayana Midplaza',
-      location: 'Jakarta, Indonesia',
+      name: "Ayana Midplaza",
+      location: "Jakarta, Indonesia",
       rating: 4.96,
       reviews: 672,
       price: 48.25,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
     {
-      name: 'The Westin Jakarta',
-      location: 'Jakarta, Indonesia',
+      name: "The Westin Jakarta",
+      location: "Jakarta, Indonesia",
       rating: 4.96,
       reviews: 672,
       price: 17.32,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
     {
-      name: 'The Westin Resort Nusa Dua Bali',
-      location: 'Bali, Indonesia',
+      name: "The Westin Resort Nusa Dua Bali",
+      location: "Bali, Indonesia",
       rating: 4.96,
       reviews: 672,
       price: 15.63,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
     {
-      name: 'Grand',
-      location: 'Bali, Indonesia',
+      name: "Grand",
+      location: "Bali, Indonesia",
       rating: 4.96,
       reviews: 672,
       price: 48.25,
-      image: 'https://via.placeholder.com/300x200',
+      image: "https://via.placeholder.com/300x200",
     },
   ];
 
@@ -164,19 +163,16 @@ const Home = () => {
   }, [checkIn, checkOut]);
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Navbar */}
-      <Navbar />
-
       {/* Hero Section */}
       <motion.section
         className="relative bg-cover bg-center h-[600px] flex items-center justify-center text-white"
         style={{
-            backgroundImage: 'url("")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            height: '500px',    
-            width: '100%',
-          }}
+          backgroundImage: 'url("")',
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          height: "500px",
+          width: "100%",
+        }}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
@@ -184,7 +180,7 @@ const Home = () => {
         <div className="absolute inset-0 bg-black opacity-50"></div>
         <div className="relative z-10 text-center">
           <motion.h1
-            className="text-5xl font-bold mb-4"
+            className="mb-4 text-5xl font-bold"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
@@ -192,7 +188,7 @@ const Home = () => {
             FIND YOUR NEXT STAY
           </motion.h1>
           <motion.p
-            className="text-lg mb-8"
+            className="mb-8 text-lg"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
@@ -200,19 +196,19 @@ const Home = () => {
             Search deals on hotels, homes, and much more...
           </motion.p>
 
-         {/* Search Form */}
-         <motion.div
-            className="bg-white p-4 rounded-lg shadow-lg flex flex-col md:flex-row gap-2 max-w-5xl mx-auto"
+          {/* Search Form */}
+          <motion.div
+            className="md:flex-row flex flex-col max-w-5xl gap-2 p-4 mx-auto bg-white rounded-lg shadow-lg"
             variants={fadeInUp}
             initial="hidden"
             animate="visible"
           >
             {/* Location */}
-            <div className="flex-1 relative">
+            <div className="relative flex-1">
               <select
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
-                className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
               >
                 {locationOptions.map((option, index) => (
                   <option key={index} value={option}>
@@ -220,28 +216,27 @@ const Home = () => {
                   </option>
                 ))}
               </select>
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
-              </span>
+              <span className="left-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2"></span>
             </div>
 
             {/* Check In */}
-            <div className="flex-1 relative">
+            <div className="relative flex-1">
               <DatePicker
                 selected={checkIn}
                 onChange={(date) => setCheckIn(date)}
                 minDate={new Date()} // Prevent past dates
                 dateFormat="dd MMMM yyyy"
                 locale={id} // Set locale to Indonesian
-                className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
                 placeholderText="Check In"
               />
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <span className="right-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
                 📅
               </span>
             </div>
 
             {/* Check Out */}
-            <div className="flex-1 relative">
+            <div className="relative flex-1">
               <DatePicker
                 selected={checkOut}
                 onChange={(date) => setCheckOut(date)}
@@ -252,20 +247,20 @@ const Home = () => {
                 }
                 dateFormat="dd MMMM yyyy"
                 locale={id} // Set locale to Indonesian
-                className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
                 placeholderText="Check Out"
               />
-              <span className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <span className="right-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
                 📅
               </span>
             </div>
 
             {/* Guests */}
-            <div className="flex-1 relative">
+            <div className="relative flex-1">
               <select
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
-                className="w-full p-3 border rounded-md text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                className="focus:outline-none focus:ring-2 focus:ring-gray-300 w-full p-3 text-gray-700 border rounded-md"
               >
                 {guestOptions.map((option, index) => (
                   <option key={index} value={option}>
@@ -273,13 +268,13 @@ const Home = () => {
                   </option>
                 ))}
               </select>
-              <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
+              <span className="left-3 top-1/2 absolute text-gray-400 transform -translate-y-1/2">
                 👤
               </span>
             </div>
 
             {/* Search Button */}
-            <button className="bg-black text-white px-6 py-3 rounded-md hover:bg-gray-800 transition font-medium">
+            <button className="hover:bg-gray-800 px-6 py-3 font-medium text-white transition bg-black rounded-md">
               Cari
             </button>
           </motion.div>
@@ -288,36 +283,30 @@ const Home = () => {
 
       {/* Best Deals Section */}
       <motion.section
-        className="py-16 px-4"
+        className="px-4 py-16"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
       >
         <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl font-bold mb-4"
-            variants={fadeInUp}
-          >
+          <motion.h2 className="mb-4 text-3xl font-bold" variants={fadeInUp}>
             Best Deal Hotels
           </motion.h2>
-          <motion.p
-            className="text-gray-600 mb-8"
-            variants={fadeInUp}
-          >
+          <motion.p className="mb-8 text-gray-600" variants={fadeInUp}>
             Quality as judged by customers. Book at the ideal price!
           </motion.p>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="md:grid-cols-2 lg:grid-cols-4 grid grid-cols-1 gap-6">
             {bestDeals.map((deal, index) => (
               <motion.div
                 key={index}
-                className="bg-white rounded-lg shadow-md overflow-hidden"
+                className="overflow-hidden bg-white rounded-lg shadow-md"
                 variants={fadeInUp}
               >
                 <img
                   src={deal.image}
                   alt={deal.name}
-                  className="w-full h-40 object-cover"
+                  className="object-cover w-full h-40"
                 />
                 <div className="p-4">
                   <span className="text-sm text-gray-500">{deal.category}</span>
@@ -329,11 +318,11 @@ const Home = () => {
                       {deal.discount}% off
                     </span>
                   </div>
-                  <div className="flex justify-between items-center mt-4">
+                  <div className="flex items-center justify-between mt-4">
                     <span className="text-lg font-bold">
                       ${deal.price}/night
                     </span>
-                    <button className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">
+                    <button className="hover:bg-gray-800 px-4 py-2 text-white transition bg-black rounded-md">
                       Book Now
                     </button>
                   </div>
@@ -346,23 +335,17 @@ const Home = () => {
 
       {/* Top Rated Hotels Section with Slider */}
       <motion.section
-        className="py-16 px-4 bg-gray-50"
+        className="bg-gray-50 px-4 py-16"
         variants={staggerContainer}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
       >
         <div className="max-w-6xl mx-auto">
-          <motion.h2
-            className="text-3xl font-bold mb-4"
-            variants={fadeInUp}
-          >
+          <motion.h2 className="mb-4 text-3xl font-bold" variants={fadeInUp}>
             Top Rated Hotels
           </motion.h2>
-          <motion.p
-            className="text-gray-600 mb-8"
-            variants={fadeInUp}
-          >
+          <motion.p className="mb-8 text-gray-600" variants={fadeInUp}>
             Quality as judged by customers. Book at the ideal price!
           </motion.p>
           <Slider {...sliderSettings}>
@@ -373,11 +356,11 @@ const Home = () => {
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
-                <div className="bg-white rounded-lg shadow-md overflow-hidden">
+                <div className="overflow-hidden bg-white rounded-lg shadow-md">
                   <img
                     src={hotel.image}
                     alt={hotel.name}
-                    className="w-full h-40 object-cover"
+                    className="object-cover w-full h-40"
                   />
                   <div className="p-4">
                     <h3 className="text-lg font-semibold">{hotel.name}</h3>
@@ -388,11 +371,11 @@ const Home = () => {
                         {hotel.rating} ({hotel.reviews} reviews)
                       </span>
                     </div>
-                    <div className="flex justify-between items-center mt-4">
+                    <div className="flex items-center justify-between mt-4">
                       <span className="text-lg font-bold">
                         ${hotel.price}/person
                       </span>
-                      <button className="bg-black text-white px-4 py-2 rounded-md hover:bg-gray-800 transition">
+                      <button className="hover:bg-gray-800 px-4 py-2 text-white transition bg-black rounded-md">
                         Book Now
                       </button>
                     </div>
@@ -403,9 +386,6 @@ const Home = () => {
           </Slider>
         </div>
       </motion.section>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
