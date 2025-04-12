@@ -83,7 +83,7 @@ This project uses Tailwind CSS for styling. Tailwind CSS is a utility-first CSS 
 - **Utility Classes**: You can add Tailwind CSS classes directly to your JSX elements.
 
   ```jsx
-  <div className="text-3xl font-bold text-blue-500">Hello, Tailwind CSS!</div>
+  <div className='text-3xl font-bold text-blue-500'>Hello, Tailwind CSS!</div>
   ```
 
 ## Working with Components
@@ -98,7 +98,7 @@ The project is component-based, meaning the UI is broken down into reusable comp
     // src/components/MyComponent.jsx
     function MyComponent() {
       return (
-        <div className="bg-gray-100 p-4 rounded-md">
+        <div className='rounded-md bg-gray-100 p-4'>
           <h2>My Component</h2>
           <p>This is a reusable component.</p>
         </div>
@@ -112,7 +112,7 @@ The project is component-based, meaning the UI is broken down into reusable comp
 
     ```jsx
     // src/page.tsx
-    import MyComponent from "@/components/MyComponent";
+    import MyComponent from '@/components/MyComponent';
 
     function HomePage() {
       return (
@@ -131,8 +131,8 @@ The project is component-based, meaning the UI is broken down into reusable comp
 The `cn` function in utils.ts is used to merge Tailwind CSS classes conditionally. It uses `clsx` and `tailwind-merge` under the hood.
 
 ```typescript
-import { clsx, type ClassValue } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx, type ClassValue } from 'clsx';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -142,13 +142,13 @@ export function cn(...inputs: ClassValue[]) {
 ### How to Use `cn`
 
 ```jsx
-import { cn } from "@/lib/utils";
+import { cn } from '@/lib/utils';
 
 function Button({ className, children }) {
   return (
     <button
       className={cn(
-        "bg-blue-500 text-white font-bold py-2 px-4 rounded",
+        'rounded bg-blue-500 px-4 py-2 font-bold text-white',
         className
       )}
     >
@@ -169,7 +169,7 @@ This project uses `shadcn-ui` for pre-built UI components.
 1.  **Import the Component:** Import the desired component from `@/components/ui/`.
 
     ```jsx
-    import { Button } from "@/components/ui/button";
+    import { Button } from '@/components/ui/button';
 
     function MyPage() {
       return (
