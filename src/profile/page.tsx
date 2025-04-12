@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { Button } from "@shadcn/button";
-import { cn } from "../lib/utils";
+import { useState, useEffect } from 'react';
+import { Button } from '@shadcn/button';
+import { cn } from '../lib/utils';
 
 interface UserProfile {
   travelTypes: string[];
@@ -13,13 +13,13 @@ interface UserProfile {
 }
 
 const defaultProfile: UserProfile = {
-  travelTypes: ["adventure", "cultural"],
+  travelTypes: ['adventure', 'cultural'],
   budget: 2000,
   preferences: {
-    accommodation: "hotel",
-    activities: ["sightseeing", "local cuisine"],
-    transportation: "public",
-  },
+    accommodation: 'hotel',
+    activities: ['sightseeing', 'local cuisine'],
+    transportation: 'public'
+  }
 };
 
 function ProfilePage() {
@@ -28,7 +28,7 @@ function ProfilePage() {
   const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
-    const savedProfile = localStorage.getItem("userProfile");
+    const savedProfile = localStorage.getItem('userProfile');
     if (savedProfile) {
       setProfile(JSON.parse(savedProfile));
     }
@@ -36,7 +36,7 @@ function ProfilePage() {
 
   const handleSave = () => {
     setIsSaving(true);
-    localStorage.setItem("userProfile", JSON.stringify(profile));
+    localStorage.setItem('userProfile', JSON.stringify(profile));
     setTimeout(() => {
       setIsSaving(false);
       setShowToast(true);
@@ -47,39 +47,39 @@ function ProfilePage() {
   const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setProfile((prev) => ({
       ...prev,
-      budget: parseInt(e.target.value),
+      budget: parseInt(e.target.value)
     }));
   };
 
   return (
-    <div className="max-w-4xl p-6 mx-auto">
-      <h1 className="mb-6 text-2xl font-bold">Profile Settings</h1>
+    <div className='mx-auto max-w-4xl p-6'>
+      <h1 className='mb-6 text-2xl font-bold'>Profile Settings</h1>
 
-      <div className="space-y-6">
-        <div className="bg-purple-800/30 rounded-xl p-6">
-          <h2 className="mb-4 text-xl font-semibold">Travel Preferences</h2>
+      <div className='space-y-6'>
+        <div className='rounded-xl bg-purple-800/30 p-6'>
+          <h2 className='mb-4 text-xl font-semibold'>Travel Preferences</h2>
 
-          <div className="space-y-4">
+          <div className='space-y-4'>
             <div>
-              <label className="block mb-2 text-sm font-medium">
+              <label className='mb-2 block text-sm font-medium'>
                 Budget Range
               </label>
               <input
-                type="range"
-                min="500"
-                max="10000"
-                step="100"
+                type='range'
+                min='500'
+                max='10000'
+                step='100'
                 value={profile.budget}
                 onChange={handleBudgetChange}
-                className="w-full"
+                className='w-full'
               />
-              <div className="text-sm text-right text-gray-300">
+              <div className='text-right text-sm text-gray-300'>
                 ${profile.budget}
               </div>
             </div>
 
             <div>
-              <label className="block mb-2 text-sm font-medium">
+              <label className='mb-2 block text-sm font-medium'>
                 Preferred Accommodation
               </label>
               <select
@@ -89,58 +89,58 @@ function ProfilePage() {
                     ...prev,
                     preferences: {
                       ...prev.preferences,
-                      accommodation: e.target.value,
-                    },
+                      accommodation: e.target.value
+                    }
                   }))
                 }
-                className="bg-purple-800/30 w-full p-2 border border-purple-700 rounded-lg"
+                className='w-full rounded-lg border border-purple-700 bg-purple-800/30 p-2'
               >
-                <option value="hotel">Hotel</option>
-                <option value="hostel">Hostel</option>
-                <option value="apartment">Apartment</option>
-                <option value="resort">Resort</option>
+                <option value='hotel'>Hotel</option>
+                <option value='hostel'>Hostel</option>
+                <option value='apartment'>Apartment</option>
+                <option value='resort'>Resort</option>
               </select>
             </div>
           </div>
         </div>
 
-        <div className="bg-purple-800/30 rounded-xl p-6">
-          <h2 className="mb-4 text-xl font-semibold">Travel History</h2>
-          <div className="space-y-4">
-            <div className="bg-purple-700/30 flex items-center p-3 rounded-lg">
-              <div className="flex-1">
-                <h3 className="font-medium">Paris, France</h3>
-                <p className="text-sm text-gray-300">December 2023</p>
+        <div className='rounded-xl bg-purple-800/30 p-6'>
+          <h2 className='mb-4 text-xl font-semibold'>Travel History</h2>
+          <div className='space-y-4'>
+            <div className='flex items-center rounded-lg bg-purple-700/30 p-3'>
+              <div className='flex-1'>
+                <h3 className='font-medium'>Paris, France</h3>
+                <p className='text-sm text-gray-300'>December 2023</p>
               </div>
-              <div className="text-sm text-gray-300">7 days</div>
+              <div className='text-sm text-gray-300'>7 days</div>
             </div>
-            <div className="bg-purple-700/30 flex items-center p-3 rounded-lg">
-              <div className="flex-1">
-                <h3 className="font-medium">Tokyo, Japan</h3>
-                <p className="text-sm text-gray-300">October 2023</p>
+            <div className='flex items-center rounded-lg bg-purple-700/30 p-3'>
+              <div className='flex-1'>
+                <h3 className='font-medium'>Tokyo, Japan</h3>
+                <p className='text-sm text-gray-300'>October 2023</p>
               </div>
-              <div className="text-sm text-gray-300">10 days</div>
+              <div className='text-sm text-gray-300'>10 days</div>
             </div>
           </div>
         </div>
 
-        <div className="flex justify-end">
+        <div className='flex justify-end'>
           <Button
             onClick={handleSave}
             disabled={isSaving}
             className={cn(
-              "bg-gradient-to-r from-pink-600 to-purple-600",
-              "hover:from-pink-700 hover:to-purple-700",
-              "px-6 py-2 rounded-lg transition-all"
+              'bg-gradient-to-r from-pink-600 to-purple-600',
+              'hover:from-pink-700 hover:to-purple-700',
+              'rounded-lg px-6 py-2 transition-all'
             )}
           >
-            {isSaving ? "Saving..." : "Save Changes"}
+            {isSaving ? 'Saving...' : 'Save Changes'}
           </Button>
         </div>
       </div>
 
       {showToast && (
-        <div className="bottom-4 right-4 fixed px-4 py-2 text-white bg-green-500 rounded-lg shadow-lg">
+        <div className='fixed right-4 bottom-4 rounded-lg bg-green-500 px-4 py-2 text-white shadow-lg'>
           Profile saved successfully!
         </div>
       )}

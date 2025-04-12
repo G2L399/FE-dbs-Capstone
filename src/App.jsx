@@ -1,22 +1,22 @@
-import React from "react";
+import React from 'react';
 import {
   Route,
   createBrowserRouter,
   createRoutesFromElements,
-  RouterProvider,
-} from "react-router-dom";
-import Layout from "./layout";
-const NotFound = React.lazy(() => import("./not-found"));
+  RouterProvider
+} from 'react-router-dom';
+import Layout from './layout';
+const NotFound = React.lazy(() => import('./not-found'));
 
-const pages = import.meta.glob("./**/page.{tsx,jsx,js,ts}");
+const pages = import.meta.glob('./**/page.{tsx,jsx,js,ts}');
 const getRoutePath = (filePath) => {
   const path = filePath
-    .replace("/page.tsx", "")
-    .replace("/page.jsx", "")
-    .replace("/page.js", "")
-    .replace("/page.ts", "")
-    .replace("./", "/")
-    .replace(".", "/");
+    .replace('/page.tsx', '')
+    .replace('/page.jsx', '')
+    .replace('/page.js', '')
+    .replace('/page.ts', '')
+    .replace('./', '/')
+    .replace('.', '/');
   return path;
 };
 
@@ -27,22 +27,22 @@ const router = (route) => {
       path: item.path,
       element: (
         <Layout>
-          <main className="grow">
+          <main className='grow'>
             <NewElement />
           </main>
         </Layout>
-      ),
+      )
     };
   });
   newroute.push({
-    path: "*", // Matches any unmatched route
+    path: '*', // Matches any unmatched route
     element: (
       <Layout>
-        <main className="grow">
+        <main className='grow'>
           <NotFound />
         </main>
       </Layout>
-    ),
+    )
   });
   return createBrowserRouter(
     createRoutesFromElements(
@@ -57,7 +57,7 @@ function App() {
   const routes = Object.keys(pages).map((key) => {
     return {
       path: getRoutePath(key),
-      element: pages[key],
+      element: pages[key]
     };
   });
 
