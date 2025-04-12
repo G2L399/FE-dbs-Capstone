@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Button } from '@shadcn/button';
-import { cn } from '../lib/utils';
 import { FaHeart, FaBookmark } from 'react-icons/fa';
+import { cn } from '../lib/utils';
 
 interface Destination {
   id: string;
