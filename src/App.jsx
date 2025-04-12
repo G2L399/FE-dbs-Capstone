@@ -6,8 +6,8 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Layout from "./layout";
+const NotFound = React.lazy(() => import("./not-found"));
 
-//
 const pages = import.meta.glob("./**/page.{tsx,jsx,js,ts}");
 const getRoutePath = (filePath) => {
   const path = filePath
@@ -33,6 +33,16 @@ const router = (route) => {
         </Layout>
       ),
     };
+  });
+  newroute.push({
+    path: "*", // Matches any unmatched route
+    element: (
+      <Layout>
+        <main className="grow">
+          <NotFound />
+        </main>
+      </Layout>
+    ),
   });
   return createBrowserRouter(
     createRoutesFromElements(
