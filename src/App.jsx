@@ -10,14 +10,10 @@ const NotFound = React.lazy(() => import('./not-found'));
 
 const pages = import.meta.glob('./**/page.{tsx,jsx,js,ts}');
 const getRoutePath = (filePath) => {
-  const path = filePath
-    .replace('/page.tsx', '')
-    .replace('/page.jsx', '')
-    .replace('/page.js', '')
-    .replace('/page.ts', '')
-    .replace('./', '/')
-    .replace('.', '/');
-  return path;
+  return filePath
+    .replace(/\/page\.(tsx|jsx|js|ts)$/, '')
+    .replace(/^\.\//, '/')
+    .replace(/\[(.*?)\]/g, ':$1');
 };
 
 const router = (route) => {
