@@ -1,10 +1,6 @@
-import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 function Navbar() {
-  const [language, setLanguage] = useState('EN');
-  const [currency, setCurrency] = useState('USD');
-  const [isDarkMode, setIsDarkMode] = useState(false);
   const navigate = useNavigate();
 
   return (
@@ -145,7 +141,7 @@ function Navbar() {
           </div>
 
           <button
-            onClick={() => navigate('/sign')}
+            onClick={() => navigate('/sign-in')}
             className='signin-btn ml-4 rounded-md px-4 py-2 font-medium hover:bg-gray-100'
           >
             Sign in

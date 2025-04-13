@@ -1,145 +1,25 @@
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import {
+  ChevronDown,
+  ArrowRight,
+  ArrowRightCircle,
+  Heart,
+  Star,
+  MapPin
+} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { dashboardData } from '@/types/dashboard';
 
-function App() {
+function App({ data }: { data: dashboardData }) {
+  console.log(data);
+
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('Tours');
-  const [language, setLanguage] = useState('EN');
-  const [currency, setCurrency] = useState('USD');
-  const [isDarkMode, setIsDarkMode] = useState(false);
-  const navigate = useNavigate();
-
-  // Popular destinations data
-  const destinations = [
-    {
-      id: 1,
-      name: 'Bali',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 2,
-      name: 'Raja Ampat',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 3,
-      name: 'Danau Toba',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 4,
-      name: 'Gunung Bromo',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 5,
-      name: 'Candi Borobudur',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 6,
-      name: 'Gunung Rinjani',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    },
-    {
-      id: 7,
-      name: 'Nusa Penida',
-      image: '/api/placeholder/400/300',
-      stats: '356 Tours, 248 Activities'
-    }
-  ];
-
-  // Top rated hotels data
-  const hotels = [
-    {
-      id: 1,
-      name: 'AYANA Midplaza',
-      image: '/api/placeholder/400/300',
-      location: 'Jakarta, Indonesia',
-      price: '$48.25',
-      rating: 4.96,
-      reviews: 672
-    },
-    {
-      id: 2,
-      name: 'The Westin Jakarta',
-      image: '/api/placeholder/400/300',
-      location: 'Jakarta, Indonesia',
-      price: '$17.32',
-      rating: 4.96,
-      reviews: 672
-    },
-    {
-      id: 3,
-      name: 'The Westin Resort Nusa Dua Bali',
-      image: '/api/placeholder/400/300',
-      location: 'Bali, Indonesia',
-      price: '$15.63',
-      rating: 4.96,
-      reviews: 672
-    }
-  ];
-
-  // Flight deals data
-  const flightDeals = [
-    {
-      id: 1,
-      from: 'Denmark',
-      to: 'New York',
-      image: '/api/placeholder/400/300',
-      departDate: '09 Jun 2025',
-      returnDate: '16 Jun 2025',
-      price: '$288.15',
-      class: 'Business',
-      seatsLeft: 18
-    },
-    {
-      id: 2,
-      from: 'Denmark',
-      to: 'New York',
-      image: '/api/placeholder/400/300',
-      departDate: '09 Jun 2025',
-      returnDate: '16 Jun 2025',
-      price: '$288.15',
-      class: 'Business',
-      seatsLeft: 18
-    },
-    {
-      id: 3,
-      from: 'Denmark',
-      to: 'New York',
-      image: '/api/placeholder/400/300',
-      departDate: '09 Jun 2025',
-      returnDate: '16 Jun 2025',
-      price: '$288.15',
-      class: 'Business',
-      seatsLeft: 18
-    },
-    {
-      id: 4,
-      from: 'Denmark',
-      to: 'New York',
-      image: '/api/placeholder/400/300',
-      departDate: '09 Jun 2025',
-      returnDate: '16 Jun 2025',
-      price: '$288.15',
-      class: 'Business',
-      seatsLeft: 18
-    }
-  ];
 
   return (
-    <div className={`app ${isDarkMode ? 'dark-mode' : ''}`}>
+    <>
       {/* Search Section */}
-      <section className='search-section py-8'>
+      <section className='py-8'>
         <div className='container mx-auto px-4'>
           <div className='search-box mx-auto flex max-w-4xl items-center rounded-full bg-gray-100 p-2 px-4'>
             <svg
@@ -294,9 +174,9 @@ function App() {
       </section>
 
       {/* Popular Destinations Section */}
-      <section className='popular-destinations py-12'>
+      <section className='py-12'>
         <div className='container mx-auto px-4'>
-          <div className='section-header mb-6 flex items-end justify-between'>
+          <div className='mb-6 flex items-end justify-between'>
             <div>
               <h2 className='mb-2 text-4xl font-bold'>Popular Destinations</h2>
               <p className='text-gray-500'>
@@ -304,116 +184,54 @@ function App() {
               </p>
             </div>
 
-            <div className='filters hidden gap-3 md:flex'>
-              <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+            <div className={cn('filters hidden gap-3 md:flex')}>
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Categories</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
-              <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Duration</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
-              <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Review / Rating</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
-              <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Price range</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
             </div>
           </div>
 
-          <div className='destinations-grid grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {destinations.slice(0, 7).map((destination) => (
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            {data.popularDestinations.map((destination) => (
               <div
                 key={destination.id}
-                className='destination-card overflow-hidden rounded-lg border border-gray-100 bg-white shadow-sm transition-shadow hover:shadow-md'
+                className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
               >
-                <div className='destination-image relative'>
-                  <img
-                    src={destination.image}
-                    alt={destination.name}
-                    className='h-48 w-full object-cover'
-                  />
-                </div>
-                <div className='p-4'>
-                  <h3 className='mb-2 text-xl font-semibold'>
-                    {destination.name}
-                  </h3>
-                  <div className='flex items-center justify-between'>
-                    <span className='text-sm text-gray-500'>
-                      {destination.stats}
-                    </span>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    >
-                      <line x1='5' y1='12' x2='19' y2='12'></line>
-                      <polyline points='12 5 19 12 12 19'></polyline>
-                    </svg>
+                <img
+                  src={destination.travelPictureUrl!}
+                  alt={destination.name}
+                  className='max-h-48 w-full rounded-3xl object-cover'
+                />
+                <div className='mt-4 grid grid-cols-[3fr_1fr]'>
+                  <div className='grid grid-cols-1 grid-rows-2'>
+                    <h3 className='text-xl font-semibold'>
+                      {destination.name}
+                    </h3>
+                    <div className='flex items-end justify-between'>
+                      <span className='text-sm text-gray-500'>
+                        {destination.popularity} Tours,{' '}
+                        {destination.reviewCount} Activities
+                      </span>
+                    </div>
+                  </div>
+                  <div className='flex items-end justify-end'>
+                    <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
                   </div>
                 </div>
               </div>
@@ -424,24 +242,9 @@ function App() {
                 Crafting Your Perfect Travel Experience
               </h3>
               <div className='mt-6'>
-                <button className='browse-btn flex items-center justify-between rounded-full bg-black px-6 py-3 text-white'>
+                <button className='browse-btn flex items-center justify-between gap-4 rounded-full bg-black px-6 py-3 text-white'>
                   <span>Browse All destinations</span>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    width='16'
-                    height='16'
-                    viewBox='0 0 24 24'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth='2'
-                    strokeLinecap='round'
-                    strokeLinejoin='round'
-                    className='ml-2'
-                  >
-                    <circle cx='12' cy='12' r='10'></circle>
-                    <polyline points='12 16 16 12 12 8'></polyline>
-                    <line x1='8' y1='12' x2='16' y2='12'></line>
-                  </svg>
+                  <ArrowRightCircle />
                 </button>
               </div>
             </div>
@@ -479,77 +282,40 @@ function App() {
             </button>
           </div>
 
-          <div className='hotels-grid grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
-            {hotels.map((hotel) => (
+          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+            {data.topRatedHotels.map((hotel) => (
               <div
                 key={hotel.id}
                 className='hotel-card overflow-hidden rounded-lg bg-white shadow-sm'
               >
                 <div className='hotel-image relative'>
                   <img
-                    src={hotel.image}
+                    src={hotel.lodgingPictureUrl!}
                     alt={hotel.name}
                     className='h-48 w-full object-cover'
                   />
-                  <button className='wishlist-btn absolute top-3 right-3 rounded-full bg-white p-2 shadow-md'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='16'
-                      height='16'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                    >
-                      <path d='M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z'></path>
-                    </svg>
+                  <button className='absolute top-3 right-3 rounded-full bg-white p-2 shadow-md'>
+                    <Heart />
                   </button>
-                  <div className='rating-badge absolute bottom-3 left-3 flex items-center rounded-full bg-white px-2 py-1 shadow-md'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='yellow'
-                      stroke='orange'
-                      strokeWidth='1'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-1'
-                    >
-                      <polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'></polygon>
-                    </svg>
+                  <div className='absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-white px-2 py-1 shadow-md'>
+                    <Star width={15} className='stroke-yellow-500' />
                     <span className='text-sm font-medium'>
-                      {hotel.rating} ({hotel.reviews} reviews)
+                      {hotel.avgRating} ({hotel.reviewCount} reviews)
                     </span>
                   </div>
                 </div>
                 <div className='p-4'>
                   <h3 className='mb-2 text-xl font-semibold'>{hotel.name}</h3>
                   <div className='mb-4 flex items-center text-gray-500'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      width='14'
-                      height='14'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-1'
-                    >
-                      <path d='M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z'></path>
-                      <circle cx='12' cy='10' r='3'></circle>
-                    </svg>
-                    <span className='text-sm'>{hotel.location}</span>
+                    <MapPin width={15} />
+                    <span className='text-sm'>{hotel.address}</span>
                   </div>
                   <div className='flex items-center justify-between'>
                     <div className='price'>
-                      <span className='text-xl font-bold'>{hotel.price}</span>
-                      <span className='text-sm text-gray-500'> / person</span>
+                      <span className='text-xl font-bold'>
+                        ${hotel.pricePerNight}
+                      </span>
+                      <span className='text-sm text-gray-500'> / night</span>
                     </div>
                     <button className='book-now-btn rounded-md bg-gray-100 px-4 py-2 transition hover:bg-gray-200'>
                       Book Now
@@ -589,19 +355,7 @@ function App() {
                 </svg>
               </button>
               <button className='nav-btn rounded-full bg-gray-200 p-2'>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='20'
-                  height='20'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                >
-                  <polyline points='9 18 15 12 9 6'></polyline>
-                </svg>
+                <ArrowRight />
               </button>
             </div>
           </div>
@@ -942,7 +696,7 @@ function App() {
           </div>
         </div>
       </section>
-    </div>
+    </>
   );
 }
 
