@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { login } from '@/api/login';
+import { getCookie } from '@/lib/cookie';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -35,11 +37,29 @@ export default function LoginPage() {
 
     return () => clearInterval(interval);
   }, []);
+  useEffect(() => {
+    if (getCookie('token')) {
+      navigate('/dashboard');
+    }
+  }, []);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Login with:', { email, password, rememberMe });
+
     // Add your login logic here
+    try {
+      const response = await login({ email, password });
+      console.log(response);
+
+      if (response.success) {
+        navigate('/dashboard');
+      } else {
+        console.error('Login failed:', response.data.message);
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+    }
   };
 
   const togglePasswordVisibility = () => {
