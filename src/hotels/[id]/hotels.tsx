@@ -1,32 +1,10 @@
 // src/pages/HotelDetail.jsx
-import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 import { reviews } from '@/types/review';
 import { Hotel } from '@/types/hotel';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
-import { Room } from '@/types/room';
-
-const amenities = [
-  { name: 'Outdoor pool', icon: '🏊' },
-  { name: 'Indoor pool', icon: '🏊' },
-  { name: 'Spa and wellness center', icon: '🌿' },
-  { name: 'Restaurant', icon: '🍴' },
-  { name: 'Fitness center', icon: '🏋️' },
-  { name: 'Bar/Lounge', icon: '🍸' },
-  { name: 'Free Wi-Fi', icon: '📶' },
-  { name: 'Tea/coffee machine', icon: '☕' }
-];
-
-// Sample images for the gallery
-const galleryImages = [
-  'https://via.placeholder.com/300x200',
-  'https://via.placeholder.com/300x200',
-  'https://via.placeholder.com/300x200',
-  'https://via.placeholder.com/300x200',
-  'https://via.placeholder.com/300x200'
-];
 
 const HotelDetail = ({
   hotel
@@ -46,7 +24,7 @@ const HotelDetail = ({
     propertyType: string;
     updatedAt: string;
     reviews: reviews[];
-  } & { Rooms: Room[] };
+  } & { reviews: reviews[] };
 }) => {
   // Animation variants
   const fadeInUp = {
@@ -307,9 +285,11 @@ function Info({
               ${hotel.pricePerNight}/Night
             </p>
             <div className='mt-2 flex items-center gap-2'>
-              <Button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
-                <Link to={`/hotels/${hotel.id}/booking`}>Book Now</Link>
-              </Button>
+              <Link to={`/hotels/${hotel.id}/booking`}>
+                <Button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
+                  Book Now
+                </Button>
+              </Link>
             </div>
           </div>
         </motion.div>

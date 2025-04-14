@@ -104,22 +104,20 @@ function ProfilePage() {
           </div>
         </div>
 
-        <div className='rounded-xl bg-purple-800/30 p-6'>
+        <div className='rounded-xlp-6'>
           <h2 className='mb-4 text-xl font-semibold'>Travel History</h2>
           <div className='space-y-4'>
             <div className='flex items-center rounded-lg bg-purple-700/30 p-3'>
               <div className='flex-1'>
                 <h3 className='font-medium'>Paris, France</h3>
-                <p className='text-sm text-gray-300'>December 2023</p>
+                <p className='text-sm'>December 2023</p>
               </div>
-              <div className='text-sm text-gray-300'>7 days</div>
             </div>
             <div className='flex items-center rounded-lg bg-purple-700/30 p-3'>
               <div className='flex-1'>
                 <h3 className='font-medium'>Tokyo, Japan</h3>
-                <p className='text-sm text-gray-300'>October 2023</p>
+                <p className='text-sm'>October 2023</p>
               </div>
-              <div className='text-sm text-gray-300'>10 days</div>
             </div>
           </div>
         </div>

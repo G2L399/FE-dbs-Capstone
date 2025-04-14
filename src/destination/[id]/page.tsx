@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
@@ -65,9 +65,11 @@ export default function page() {
                 <span className='text-2xl font-bold'>Raja Ampat</span>
               </div>
             </div>
-            <Button className='mt-4 w-full bg-gray-900 hover:bg-gray-800'>
-              Change Destination
-            </Button>
+            <Link to={`/destination`}>
+              <Button className='mt-4 w-full bg-gray-900 hover:bg-gray-800'>
+                Change Destination
+              </Button>
+            </Link>
           </Card>
         </div>
       </div>

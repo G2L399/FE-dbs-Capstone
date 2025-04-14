@@ -4,11 +4,10 @@ import Hotels from './hotels';
 import { byID } from '@/api/hotels';
 import { useParams } from 'react-router-dom';
 import { reviews } from '@/types/review';
-import { Room } from '@/types/room';
 
 export default function page() {
   const [Hotel, setHotel] = useState<{
-    Hotel: {
+    hotel: {
       address: string;
       city: string;
       country: string;
@@ -23,7 +22,7 @@ export default function page() {
       propertyType: string;
       updatedAt: string;
       reviews: reviews[];
-    } & { Rooms: Room[] };
+    } & { reviews: reviews[] };
   }>();
   const params = useParams();
   console.log(Hotel);
@@ -36,5 +35,5 @@ export default function page() {
     fetchData();
   }, []);
 
-  return Hotel ? <Hotels hotel={Hotel.Hotel} /> : 'loading';
+  return Hotel ? <Hotels hotel={Hotel.hotel} /> : 'loading';
 }
