@@ -1,15 +1,45 @@
-import React, { useState, useEffect } from 'react';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
-import Slider from 'react-slick';
+import { useState, useEffect } from 'react';
+import Slider, { Settings } from 'react-slick';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { id } from 'date-fns/locale';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
-const Home = () => {
+const Home = ({
+  topRatedHotels,
+  bestDeal
+}: {
+  topRatedHotels: {
+    id: number;
+    name: string;
+    description: string;
+    lodgingPictureUrl: string;
+    pricePerNight: number;
+    address: string;
+    city: string;
+    country: string;
+    propertyType: string;
+    avgRating: number;
+    reviewCount: number;
+  }[];
+  bestDeal: {
+    address: string;
+    city: string;
+    country: string;
+    createdAt: string;
+    description: string;
+    id: number;
+    latitude: number;
+    lodgingPictureUrl: string;
+    longitude: number;
+    name: string;
+    pricePerNight: number;
+    propertyType: string;
+    updatedAt: string;
+  }[];
+}) => {
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
@@ -65,78 +95,6 @@ const Home = () => {
     '4 adults'
   ];
 
-  // Data for Best Deal Hotels (static for now)
-  const bestDeals = [
-    {
-      category: 'Luxury',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
-      price: 148.25,
-      discount: 25,
-      image: 'https://via.placeholder.com/300x200' // Replace with actual image URL
-    },
-    {
-      category: 'Family',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
-      price: 148.25,
-      discount: 28,
-      image: 'https://via.placeholder.com/300x200'
-    },
-    {
-      category: 'Business',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
-      price: 148.25,
-      discount: 27,
-      image: 'https://via.placeholder.com/300x200'
-    },
-    {
-      category: 'Standard',
-      name: 'Fairmont Resort, Dubai',
-      location: 'Dubai, UAE',
-      price: 148.25,
-      discount: 35,
-      image: 'https://via.placeholder.com/300x200'
-    }
-  ];
-
-  // Data for Top Rated Hotels (static for now)
-  const topRated = [
-    {
-      name: 'Ayana Midplaza',
-      location: 'Jakarta, Indonesia',
-      rating: 4.96,
-      reviews: 672,
-      price: 48.25,
-      image: 'https://via.placeholder.com/300x200'
-    },
-    {
-      name: 'The Westin Jakarta',
-      location: 'Jakarta, Indonesia',
-      rating: 4.96,
-      reviews: 672,
-      price: 17.32,
-      image: 'https://via.placeholder.com/300x200'
-    },
-    {
-      name: 'The Westin Resort Nusa Dua Bali',
-      location: 'Bali, Indonesia',
-      rating: 4.96,
-      reviews: 672,
-      price: 15.63,
-      image: 'https://via.placeholder.com/300x200'
-    },
-    {
-      name: 'Grand',
-      location: 'Bali, Indonesia',
-      rating: 4.96,
-      reviews: 672,
-      price: 48.25,
-      image: 'https://via.placeholder.com/300x200'
-    }
-  ];
-
   const staggerContainer = {
     hidden: { opacity: 0 },
     visible: {
@@ -177,7 +135,7 @@ const Home = () => {
         animate={{ opacity: 1 }}
         transition={{ duration: 1 }}
       >
-        <div className='absolute inset-0 bg-black opacity-50'></div>
+        <div className='absolute inset-0 bg-gray-900 opacity-50'></div>
         <div className='relative z-10 text-center'>
           <motion.h1
             className='mb-4 text-5xl font-bold'
@@ -223,7 +181,7 @@ const Home = () => {
             <div className='relative flex-1'>
               <DatePicker
                 selected={checkIn}
-                onChange={(date) => setCheckIn(date)}
+                onChange={(date) => setCheckIn(date!)}
                 minDate={new Date()} // Prevent past dates
                 dateFormat='dd MMMM yyyy'
                 locale={id} // Set locale to Indonesian
@@ -239,11 +197,15 @@ const Home = () => {
             <div className='relative flex-1'>
               <DatePicker
                 selected={checkOut}
-                onChange={(date) => setCheckOut(date)}
+                onChange={(date) => setCheckOut(date as Date)}
                 minDate={
                   checkIn
-                    ? new Date(checkIn).setDate(new Date(checkIn).getDate() + 1)
-                    : new Date()
+                    ? new Date(
+                        new Date(checkIn).setDate(
+                          new Date(checkIn).getDate() + 1
+                        )
+                      )
+                    : (new Date() as Date)
                 }
                 dateFormat='dd MMMM yyyy'
                 locale={id} // Set locale to Indonesian
@@ -282,112 +244,185 @@ const Home = () => {
       </motion.section>
 
       {/* Best Deals Section */}
-      <motion.section
-        className='px-4 py-16'
-        variants={staggerContainer}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true }}
-      >
-        <div className='mx-auto max-w-6xl'>
-          <motion.h2 className='mb-4 text-3xl font-bold' variants={fadeInUp}>
-            Best Deal Hotels
-          </motion.h2>
-          <motion.p className='mb-8 text-gray-600' variants={fadeInUp}>
-            Quality as judged by customers. Book at the ideal price!
-          </motion.p>
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
-            {bestDeals.map((deal, index) => (
-              <motion.div
-                key={index}
-                className='overflow-hidden rounded-lg bg-white shadow-md'
-                variants={fadeInUp}
-              >
+      <BestDeal
+        staggerContainer={staggerContainer}
+        fadeInUp={fadeInUp}
+        bestDeal={bestDeal}
+      />
+
+      {/* Top Rated Hotels Section with Slider */}
+      <TopRated
+        staggerContainer={staggerContainer}
+        fadeInUp={fadeInUp}
+        sliderSettings={sliderSettings}
+        topRatedHotels={topRatedHotels}
+      />
+    </div>
+  );
+};
+
+export default Home;
+
+function TopRated({
+  staggerContainer,
+  fadeInUp,
+  sliderSettings,
+  topRatedHotels
+}: {
+  staggerContainer: Variants;
+  fadeInUp: Variants;
+  sliderSettings: Settings;
+  topRatedHotels: {
+    id: number;
+    name: string;
+    description: string;
+    lodgingPictureUrl: string;
+    pricePerNight: number;
+    address: string;
+    city: string;
+    country: string;
+    propertyType: string;
+    avgRating: number;
+    reviewCount: number;
+  }[];
+}) {
+  return (
+    <motion.section
+      className='bg-gray-50 px-4 py-16'
+      variants={staggerContainer}
+      initial='hidden'
+      whileInView='visible'
+      viewport={{
+        once: true
+      }}
+    >
+      <div className='mx-auto max-w-6xl'>
+        <motion.h2 className='mb-4 text-3xl font-bold' variants={fadeInUp}>
+          Top Rated Hotels
+        </motion.h2>
+        <motion.p className='mb-8 text-gray-600' variants={fadeInUp}>
+          Quality as judged by customers. Book at the ideal price!
+        </motion.p>
+        <Slider {...sliderSettings}>
+          {topRatedHotels.map((hotel, index) => (
+            <motion.div
+              key={index}
+              className='p-2'
+              whileHover={{
+                scale: 1.05
+              }}
+              transition={{
+                duration: 0.3
+              }}
+            >
+              <div className='overflow-hidden rounded-lg bg-white shadow-md'>
                 <img
-                  src={deal.image}
-                  alt={deal.name}
+                  src={hotel.lodgingPictureUrl!}
+                  alt={hotel.name}
                   className='h-40 w-full object-cover'
                 />
                 <div className='p-4'>
-                  <span className='text-sm text-gray-500'>{deal.category}</span>
-                  <h3 className='text-lg font-semibold'>{deal.name}</h3>
-                  <p className='text-sm text-gray-600'>{deal.location}</p>
+                  <h3 className='text-lg font-semibold'>{hotel.name}</h3>
+                  <p className='text-sm text-gray-600'>
+                    {hotel.city}, {hotel.country}
+                  </p>
                   <div className='mt-2 flex items-center'>
                     <span className='text-yellow-500'>★★★★★</span>
                     <span className='ml-2 text-sm text-gray-600'>
-                      {deal.discount}% off
+                      {hotel.avgRating} ({hotel.reviewCount} reviews)
                     </span>
                   </div>
                   <div className='mt-4 flex items-center justify-between'>
                     <span className='text-lg font-bold'>
-                      ${deal.price}/night
+                      ${hotel.pricePerNight}/person
                     </span>
                     <button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
                       Book Now
                     </button>
                   </div>
                 </div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Top Rated Hotels Section with Slider */}
-      <motion.section
-        className='bg-gray-50 px-4 py-16'
-        variants={staggerContainer}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true }}
-      >
-        <div className='mx-auto max-w-6xl'>
-          <motion.h2 className='mb-4 text-3xl font-bold' variants={fadeInUp}>
-            Top Rated Hotels
-          </motion.h2>
-          <motion.p className='mb-8 text-gray-600' variants={fadeInUp}>
-            Quality as judged by customers. Book at the ideal price!
-          </motion.p>
-          <Slider {...sliderSettings}>
-            {topRated.map((hotel, index) => (
-              <motion.div
-                key={index}
-                className='p-2'
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              >
-                <div className='overflow-hidden rounded-lg bg-white shadow-md'>
-                  <img
-                    src={hotel.image}
-                    alt={hotel.name}
-                    className='h-40 w-full object-cover'
-                  />
-                  <div className='p-4'>
-                    <h3 className='text-lg font-semibold'>{hotel.name}</h3>
-                    <p className='text-sm text-gray-600'>{hotel.location}</p>
-                    <div className='mt-2 flex items-center'>
-                      <span className='text-yellow-500'>★★★★★</span>
-                      <span className='ml-2 text-sm text-gray-600'>
-                        {hotel.rating} ({hotel.reviews} reviews)
-                      </span>
-                    </div>
-                    <div className='mt-4 flex items-center justify-between'>
-                      <span className='text-lg font-bold'>
-                        ${hotel.price}/person
-                      </span>
-                      <button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
-                        Book Now
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </Slider>
-        </div>
-      </motion.section>
-    </div>
+              </div>
+            </motion.div>
+          ))}
+        </Slider>
+      </div>
+    </motion.section>
   );
-};
+}
 
-export default Home;
+function BestDeal({
+  staggerContainer,
+  fadeInUp,
+  bestDeal
+}: {
+  staggerContainer: Variants;
+  fadeInUp: Variants;
+  bestDeal: {
+    address: string;
+    city: string;
+    country: string;
+    createdAt: string;
+    description: string;
+    id: number;
+    latitude: number;
+    lodgingPictureUrl: string;
+    longitude: number;
+    name: string;
+    pricePerNight: number;
+    propertyType: string;
+  }[];
+}) {
+  return (
+    <motion.section
+      className='px-4 py-16'
+      variants={staggerContainer}
+      initial='hidden'
+      whileInView='visible'
+      viewport={{
+        once: true
+      }}
+    >
+      <div className='mx-auto max-w-6xl'>
+        <motion.h2 className='mb-4 text-3xl font-bold' variants={fadeInUp}>
+          Best Deal Hotels
+        </motion.h2>
+        <motion.p className='mb-8 text-gray-600' variants={fadeInUp}>
+          Quality as judged by customers. Book at the ideal price!
+        </motion.p>
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4'>
+          {bestDeal.map((deal, index) => (
+            <motion.div
+              key={index}
+              className='overflow-hidden rounded-lg bg-white shadow-md'
+              variants={fadeInUp}
+              aria-hidden={false}
+            >
+              <img
+                src={deal.lodgingPictureUrl!}
+                alt={deal.name}
+                className='h-40 w-full object-cover'
+              />
+              <div className='p-4'>
+                <span className='text-sm text-gray-500'>
+                  {deal.propertyType}
+                </span>
+                <h3 className='text-lg font-semibold'>{deal.name}</h3>
+                <p className='text-sm text-gray-600'>
+                  {deal.city}, {deal.country}
+                </p>
+                <div className='mt-4 flex items-center justify-between'>
+                  <span className='text-lg font-bold'>
+                    ${deal.pricePerNight}/night
+                  </span>
+                  <button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </motion.section>
+  );
+}
