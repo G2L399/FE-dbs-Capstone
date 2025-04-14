@@ -10,7 +10,14 @@ import {
 import { cn } from '@/lib/utils';
 import { dashboardData } from '@/types/dashboard';
 
-function App({ data }: { data: dashboardData }) {
+function App({
+  data,
+  recommendation
+}: {
+  data: dashboardData;
+  recommendation: any;
+}) {
+  console.log(recommendation);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeTab, setActiveTab] = useState('Tours');
 
@@ -246,6 +253,79 @@ function App({ data }: { data: dashboardData }) {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className='py-12'>
+        <div className='container mx-auto px-4'>
+          <div className='mb-6 flex items-end justify-between'>
+            <div>
+              <h2 className='mb-2 text-4xl font-bold'>
+                Based On Your Recent Destination
+              </h2>
+              <p className='text-gray-500'>
+                destinations based on your recent destination
+              </p>
+            </div>
+
+            <div className={cn('filters hidden gap-3 md:flex')}>
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+                <span>Categories</span>
+                <ChevronDown width={20} />
+              </div>
+
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+                <span>Duration</span>
+                <ChevronDown width={20} />
+              </div>
+
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+                <span>Review / Rating</span>
+                <ChevronDown width={20} />
+              </div>
+
+              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+                <span>Price range</span>
+                <ChevronDown width={20} />
+              </div>
+            </div>
+          </div>
+
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            {recommendation.map((destination) => (
+              <div
+                key={destination.id}
+                className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+              >
+                <img
+                  src={
+                    destination.travelPictureUrl ??
+                    '/assets/destination_placeholder.jpg?height=800&width=1200'
+                  }
+                  alt={destination.Place_Name}
+                  className='max-h-48 w-full rounded-3xl object-cover'
+                />
+
+                <div className='mt-4 grid grid-cols-[3fr_1fr]'>
+                  <div className='grid grid-cols-1 grid-rows-2'>
+                    <h3 className='text-xl font-semibold'>
+                      {destination.Place_Name}
+                    </h3>
+
+                    <div className='flex items-end justify-between'>
+                      <span className='text-sm text-gray-500'>
+                        {destination.popularity} Tours,{' '}
+                        {destination.reviewCount} Activities
+                      </span>
+                    </div>
+                  </div>
+                  <div className='flex items-end justify-end'>
+                    <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
