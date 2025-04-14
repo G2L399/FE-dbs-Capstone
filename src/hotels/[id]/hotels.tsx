@@ -1,8 +1,9 @@
 // src/pages/HotelDetail.jsx
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
+import { motion, Variants } from 'framer-motion';
+import { reviews } from '@/types/review';
+import { Hotel } from '@/types/hotel';
+import { Star } from 'lucide-react';
 
 // Sample data for rooms and amenities
 const rooms = [
@@ -48,7 +49,28 @@ const galleryImages = [
   'https://via.placeholder.com/300x200'
 ];
 
-const HotelDetail = () => {
+const HotelDetail = ({
+  hotel
+}: {
+  hotel: {
+    address: string;
+    city: string;
+    country: string;
+    createdAt: string;
+    description: string;
+    id: number;
+    latitude: number;
+    lodgingPictureUrl: string;
+    longitude: number;
+    name: string;
+    pricePerNight: number;
+    propertyType: string;
+    updatedAt: string;
+    reviews: reviews[];
+  };
+}) => {
+  console.log(hotel);
+
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
@@ -121,110 +143,15 @@ const HotelDetail = () => {
       </motion.section>
 
       {/* Hotel Info Section */}
-      <motion.section
-        className='px-4 py-16'
-        variants={staggerContainer}
-        initial='hidden'
-        whileInView='visible'
-        viewport={{ once: true }}
-      >
-        <div className='mx-auto max-w-6xl'>
-          <motion.div
-            className='mb-6 flex items-center justify-between'
-            variants={fadeInUp}
-          >
-            <div>
-              <p className='text-sm text-gray-500'>
-                Indonesia &gt; Jakarta &gt; The Westin Jakarta
-              </p>
-              <h2 className='text-3xl font-bold text-black'>
-                The Westin Jakarta
-              </h2>
-              <p className='text-sm text-gray-600'>
-                Jl. H.R. Rasuna Said No Kav.C-22 Kota Jakarta Selatan, Daerah
-                Khusus Ibukota Jakarta 12940
-              </p>
-              <div className='mt-2 flex items-center gap-4'>
-                <span className='rounded-full bg-black px-3 py-1 text-sm text-white'>
-                  4.96 (672 reviews)
-                </span>
-                <span className='text-yellow-500'>★★★★★</span>
-                <span className='text-sm text-gray-600'>5 Stars Hotel</span>
-              </div>
-            </div>
-            <div className='text-right'>
-              <p className='text-2xl font-bold text-teal-600'>$2349/Night</p>
-              <div className='mt-2 flex items-center gap-2'>
-                <button
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className={`text-2xl ${
-                    isFavorite ? 'text-red-500' : 'text-gray-400'
-                  }`}
-                >
-                  {isFavorite ? '❤️' : '🤍'}
-                </button>
-                <button className='rounded-full bg-yellow-400 px-4 py-2 text-black transition hover:bg-yellow-500'>
-                  -27%
-                </button>
-                <button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
-                  Book Now
-                </button>
-              </div>
-            </div>
-          </motion.div>
+      <Info
+        staggerContainer={staggerContainer}
+        fadeInUp={fadeInUp}
+        setIsFavorite={setIsFavorite}
+        isFavorite={isFavorite}
+        hotel={hotel}
+      />
 
-          {/* Image Gallery */}
-          <motion.div
-            className='mb-8 grid grid-cols-2 gap-4 md:grid-cols-4'
-            variants={staggerContainer}
-          >
-            {galleryImages.map((image, index) => (
-              <motion.img
-                key={index}
-                src={image}
-                alt={`Gallery ${index + 1}`}
-                className='h-48 w-full rounded-lg object-cover shadow-md'
-                variants={fadeInUp}
-                whileHover={{ scale: 1.05 }}
-                transition={{ duration: 0.3 }}
-              />
-            ))}
-          </motion.div>
-
-          {/* Overview Section */}
-          <motion.div variants={fadeInUp}>
-            <h3 className='mb-4 text-2xl font-bold'>Overview</h3>
-            <p className='leading-relaxed text-gray-600'>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-              dolor nisi, malesuada eu quam quis, elementum tincidunt libero.
-              Aliquam ac enim risus. Integer ullamcorper ornare molestie. Nullam
-              varius leo eu nulla porta, eget fringilla mauris pharetra. In
-              volutpat justo vitae eleifend pharetra. Donec ut condimentum nisi,
-              vitae lacinia nunc. Nunc ut pellentesque dolore. Etiam mauris
-              purus, porta et erat at, porttitor volutpat magna. Proin nec
-              porttitor purus. Nullam lobortis, lectus et vehicula semper, diam
-              lectus porta ante, nec pretium sem purus sit amet nisi. Sed non
-              nunc tellus.
-              <br />
-              <br />
-              Sed placerat, risus eu egestas sodales, eros tellus consequat
-              erat, eget dictum neque lacus ullamcorper nisi. Vestibulum vitae
-              molestie urna. Nulla in erat nisl pretium placerat quis sit amet
-              metus. Cras efficitur sapien nisl, non viverra quam fermentum
-              bibendum. Quisque laoreet aliquet sagittis. Praesent semper,
-              mauris gravida sodales pharetra, felis enim commodo velit, nec
-              malesuada nibh eros hendrerit dui. Donec eget lorem maximus, a
-              euismod arcu id, ornare eros. Pellentesque ante orci, luctus ac
-              condimentum eu, porta vitae leo. Nullam eget lectus imperdiet,
-              mollis ante vitae, dictum purus. Duis accumsan lectus quis viverra
-              posuere. Donec ornare fermentum augue dictum. Etiam ac tortor
-              diam, eget accumsan nisi lacinia eget.
-            </p>
-          </motion.div>
-        </div>
-      </motion.section>
-
-      {/* Available Rooms Section */}
+      {/* Available Rooms Section
       <motion.section
         className='bg-gray-50 px-4 py-16'
         variants={staggerContainer}
@@ -232,7 +159,7 @@ const HotelDetail = () => {
         whileInView='visible'
         viewport={{ once: true }}
       >
-        <div className='mx-auto max-w-6xl'>
+        <div className='max-w-6xl mx-auto'>
           <motion.h3 className='mb-6 text-2xl font-bold' variants={fadeInUp}>
             Available Rooms
           </motion.h3>
@@ -240,7 +167,7 @@ const HotelDetail = () => {
             {rooms.map((room, index) => (
               <motion.div
                 key={index}
-                className='flex items-center justify-between rounded-lg bg-white p-4 shadow-md'
+                className='flex items-center justify-between p-4 bg-white rounded-lg shadow-md'
                 variants={fadeInUp}
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.3 }}
@@ -249,7 +176,7 @@ const HotelDetail = () => {
                   <img
                     src={room.image}
                     alt={room.name}
-                    className='h-12 w-20 rounded-md object-cover'
+                    className='object-cover w-20 h-12 rounded-md'
                   />
                   <span className='text-gray-700'>{room.name}</span>
                 </div>
@@ -257,7 +184,7 @@ const HotelDetail = () => {
                   <span className='text-lg font-bold text-teal-600'>
                     ${room.price}/night
                   </span>
-                  <button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
+                  <button className='hover:bg-teal-700 px-6 py-2 text-white transition bg-teal-600 rounded-full'>
                     Book now
                   </button>
                 </div>
@@ -265,9 +192,9 @@ const HotelDetail = () => {
             ))}
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
 
-      {/* Amenities Section */}
+      {/* Amenities Section
       <motion.section
         className='px-4 py-16'
         variants={staggerContainer}
@@ -275,11 +202,11 @@ const HotelDetail = () => {
         whileInView='visible'
         viewport={{ once: true }}
       >
-        <div className='mx-auto max-w-6xl'>
+        <div className='max-w-6xl mx-auto'>
           <motion.h3 className='mb-6 text-2xl font-bold' variants={fadeInUp}>
             Amenities
           </motion.h3>
-          <div className='grid grid-cols-2 gap-4 md:grid-cols-4'>
+          <div className='md:grid-cols-4 grid grid-cols-2 gap-4'>
             {amenities.map((amenity, index) => (
               <motion.div
                 key={index}
@@ -292,9 +219,143 @@ const HotelDetail = () => {
             ))}
           </div>
         </div>
-      </motion.section>
+      </motion.section> */}
     </div>
   );
 };
 
 export default HotelDetail;
+
+function Info({
+  staggerContainer,
+  fadeInUp,
+  setIsFavorite,
+  isFavorite,
+  hotel
+}: {
+  staggerContainer: Variants;
+  fadeInUp: Variants;
+  setIsFavorite: (isFavorite: boolean) => void;
+  isFavorite: boolean;
+  hotel: {
+    address: string;
+    city: string;
+    country: string;
+    createdAt: string;
+    description: string;
+    id: number;
+    latitude: number;
+    lodgingPictureUrl: string;
+    longitude: number;
+    name: string;
+    pricePerNight: number;
+    propertyType: string;
+    reviews: reviews[];
+  };
+}) {
+  function calculateAverageRating(
+    hotel: Hotel<{ reviews: reviews[] }>
+  ): number | null {
+    const { reviews } = hotel;
+
+    // If there are no reviews, return null or 0 as appropriate
+    if (reviews.length === 0) {
+      return null; // You can also return 0 if you prefer
+    }
+
+    // Calculate the sum of all ratings
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+
+    // Calculate the average rating
+    const averageRating = totalRating / reviews.length;
+    console.log(averageRating);
+
+    // Return the average rating rounded to 2 decimal places
+    return Math.round(averageRating * 100) / 100;
+  }
+  calculateAverageRating(hotel);
+  return (
+    <motion.section
+      className='px-4 py-16'
+      variants={staggerContainer}
+      initial='hidden'
+      whileInView='visible'
+      viewport={{
+        once: true
+      }}
+    >
+      <div className='mx-auto max-w-6xl'>
+        <motion.div
+          className='mb-6 flex items-center justify-between'
+          variants={fadeInUp}
+        >
+          <div>
+            <p className='text-sm text-gray-500'>
+              {hotel.city}, {hotel.country}
+            </p>
+            <h2 className='text-3xl font-bold text-black'>{hotel.name}</h2>
+            <p className='text-sm text-gray-600'>{hotel.address}</p>
+            <div className='mt-2 flex items-center gap-4'>
+              <span className='rounded-full bg-black px-3 py-1 text-sm text-white'>
+                {calculateAverageRating(hotel)} ({hotel.reviews.length} reviews)
+              </span>
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className='mr-1 size-3 text-yellow-500'
+                  fill={
+                    i >= Math.floor(calculateAverageRating(hotel)!)
+                      ? 'none'
+                      : 'currentColor'
+                  }
+                />
+              ))}{' '}
+              {calculateAverageRating(hotel)?.toFixed(0)} Star Hotel
+            </div>
+          </div>
+          <div className='text-right'>
+            <p className='text-2xl font-bold text-teal-600'>
+              ${hotel.pricePerNight}/Night
+            </p>
+            <div className='mt-2 flex items-center gap-2'>
+              <button
+                onClick={() => setIsFavorite(!isFavorite)}
+                className={`text-2xl ${isFavorite ? 'text-red-500' : 'text-gray-400'}`}
+              >
+                {isFavorite ? '❤️' : '🤍'}
+              </button>
+              <button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
+                Book Now
+              </button>
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Image Gallery */}
+        <motion.div
+          className='mb-8 grid grid-cols-2 gap-4 md:grid-cols-4'
+          variants={staggerContainer}
+        >
+          <motion.img
+            src={hotel.lodgingPictureUrl}
+            alt={`Gallery nigga`}
+            className='h-48 w-full rounded-lg object-cover shadow-md'
+            variants={fadeInUp}
+            whileHover={{
+              scale: 1.05
+            }}
+            transition={{
+              duration: 0.3
+            }}
+          />
+        </motion.div>
+
+        {/* Overview Section */}
+        <motion.div variants={fadeInUp}>
+          <h3 className='mb-4 text-2xl font-bold'>Overview</h3>
+          <p className='leading-relaxed text-gray-600'>{hotel.description}</p>
+        </motion.div>
+      </div>
+    </motion.section>
+  );
+}

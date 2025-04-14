@@ -6,6 +6,9 @@ import { id } from 'date-fns/locale';
 import { motion, Variants } from 'framer-motion';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Star } from 'lucide-react';
 
 const Home = ({
   topRatedHotels,
@@ -327,14 +330,24 @@ function TopRated({
                     {hotel.city}, {hotel.country}
                   </p>
                   <div className='mt-2 flex items-center'>
-                    <span className='text-yellow-500'>★★★★★</span>
+                    {[...Array(5)].map((_, i) => (
+                      <Star
+                        key={i}
+                        className='mr-1 size-3 text-yellow-500'
+                        fill={
+                          i >= Math.floor(hotel.avgRating)
+                            ? 'none'
+                            : 'currentColor'
+                        }
+                      />
+                    ))}
                     <span className='ml-2 text-sm text-gray-600'>
                       {hotel.avgRating} ({hotel.reviewCount} reviews)
                     </span>
                   </div>
                   <div className='mt-4 flex items-center justify-between'>
                     <span className='text-lg font-bold'>
-                      ${hotel.pricePerNight}/person
+                      ${hotel.pricePerNight}/night
                     </span>
                     <button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
                       Book Now
@@ -393,7 +406,7 @@ function BestDeal({
           {bestDeal.map((deal, index) => (
             <motion.div
               key={index}
-              className='overflow-hidden rounded-lg bg-white shadow-md'
+              className='grid grid-cols-1 overflow-hidden rounded-lg bg-white shadow-md'
               variants={fadeInUp}
               aria-hidden={false}
             >
@@ -402,11 +415,13 @@ function BestDeal({
                 alt={deal.name}
                 className='h-40 w-full object-cover'
               />
-              <div className='p-4'>
+              <div className='grid grid-cols-1 grid-rows-[1rem_1fr_2rem_1fr] p-4'>
                 <span className='text-sm text-gray-500'>
                   {deal.propertyType}
                 </span>
-                <h3 className='text-lg font-semibold'>{deal.name}</h3>
+                <h3 className='no-scrollbar overflow-auto text-lg font-semibold'>
+                  {deal.name}
+                </h3>
                 <p className='text-sm text-gray-600'>
                   {deal.city}, {deal.country}
                 </p>
@@ -414,9 +429,9 @@ function BestDeal({
                   <span className='text-lg font-bold'>
                     ${deal.pricePerNight}/night
                   </span>
-                  <button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
-                    Book Now
-                  </button>
+                  <Button className='rounded-md bg-black px-4 py-2 text-white transition hover:bg-gray-800'>
+                    <Link to={`/hotels/${deal.id}`}>Book Now</Link>
+                  </Button>
                 </div>
               </div>
             </motion.div>

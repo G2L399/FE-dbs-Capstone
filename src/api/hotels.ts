@@ -9,3 +9,7 @@ export const bestDeal = async () => {
   const result = await axiosInstance.get('/hotels/best-deals');
   return result.data;
 };
+export const byID = async (id: number) => {
+  const result = await axiosInstance.get(`/hotels/${id}`);
+  return result.data;
+};
