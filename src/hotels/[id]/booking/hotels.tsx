@@ -1,21 +1,21 @@
 // src/pages/Booking.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { id } from 'date-fns/locale';
 import { Hotel } from '@/types/hotel';
 import { Room } from '@/types/room';
 import { reviews } from '@/types/review';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 
 const Booking = ({
   hotel
 }: {
   hotel: Hotel<{ Rooms: Room[]; reviews: reviews[] }>;
 }) => {
-  const navigate = useNavigate();
-
   // Set checkIn to today
   const today = new Date();
   const tomorrow = new Date(today);
@@ -24,6 +24,7 @@ const Booking = ({
   // State for booking form
   const [checkIn, setCheckIn] = useState(today);
   const [checkOut, setCheckOut] = useState(tomorrow);
+  const [guestAmount, setGuestAmount] = useState(0);
   const [selectedRooms, setSelectedRooms] = useState<Room[]>(); // Now an array to support multiple selections
   const [totalPrice, setTotalPrice] = useState(0);
 
@@ -76,19 +77,6 @@ const Booking = ({
     setSelectedRooms([room]);
   };
 
-  // Handle proceeding to payment
-  const handleProceedToPayment = () => {
-    navigate('/hotels-payment', {
-      state: {
-        hotelName: 'The Westin Jakarta',
-        rooms: selectedRooms,
-        checkIn,
-        checkOut,
-        totalPrice
-      }
-    });
-  };
-
   return (
     <div className='min-h-screen bg-white text-black'>
       {/* Booking Section */}
@@ -104,7 +92,7 @@ const Booking = ({
             className='mb-6 text-3xl font-bold text-black'
             variants={fadeInUp}
           >
-            Pesan Kamar di The Westin Jakarta
+            Pesan Kamar di {hotel.name}
           </motion.h2>
 
           {/* Check-in and Check-out Dates */}
@@ -112,12 +100,15 @@ const Booking = ({
             className='mb-8 flex flex-col gap-4 md:flex-row'
             variants={fadeInUp}
           >
-            <div className='relative flex-1'>
+            <div className='relative flex-1 [&>div]:w-full'>
               <DatePicker
                 selected={checkIn}
                 onChange={(date) => setCheckIn(date!)}
                 minDate={new Date()}
-                dateFormat='dd MMMM yyyy'
+                dateFormat='dd MMMM yyyy HH:mm'
+                showTimeSelect // Enable time selection in the DatePicker
+                timeFormat='HH:mm' // Specify the time format (24-hour clock)
+                timeIntervals={30}
                 locale={id}
                 className='w-full rounded-md border p-3 text-gray-700 focus:ring-2 focus:ring-teal-300 focus:outline-none'
                 placeholderText='Check In'
@@ -126,7 +117,7 @@ const Booking = ({
                 📅
               </span>
             </div>
-            <div className='relative flex-1'>
+            <div className='relative flex-1 [&>div]:w-full'>
               <DatePicker
                 selected={checkOut}
                 onChange={(date) => setCheckOut(date as Date)}
@@ -139,7 +130,10 @@ const Booking = ({
                       )
                     : new Date()
                 }
-                dateFormat='dd MMMM yyyy'
+                dateFormat='dd MMMM yyyy HH:mm'
+                showTimeSelect // Enable time selection in the DatePicker
+                timeFormat='HH:mm' // Specify the time format (24-hour clock)
+                timeIntervals={30}
                 locale={id}
                 className='w-full rounded-md border p-3 text-gray-700 focus:ring-2 focus:ring-teal-300 focus:outline-none'
                 placeholderText='Check Out'
@@ -221,17 +215,45 @@ const Booking = ({
                 <span className='font-semibold'>Total Malam:</span>{' '}
                 {Math.ceil(checkOut.getDate() - checkIn.getDate())}
               </p>
+              <p className='text-gray-700'>
+                <span className='font-semibold'>Jumlah Orang:</span>{' '}
+                <Input
+                  type='number'
+                  value={guestAmount}
+                  onChange={(e) => setGuestAmount(Number(e.target.value))}
+                  min={1}
+                ></Input>
+              </p>
               <p className='text-lg font-bold text-teal-600'>
                 <span className='font-semibold'>Total Harga:</span> $
                 {totalPrice}
               </p>
             </div>
-            <button
-              onClick={handleProceedToPayment}
-              className='mt-6 w-full rounded-full bg-teal-600 px-6 py-3 text-white transition hover:bg-teal-700'
+
+            <Button
+              disabled={!(selectedRooms && !(guestAmount <= 0))}
+              onClick={() => {
+                console.log(selectedRooms);
+                console.log(guestAmount);
+                console.log(!selectedRooms && !(guestAmount <= 0));
+              }}
+              className='mt-6 w-full rounded-full bg-teal-600 p-6 text-white transition hover:bg-teal-700'
             >
-              Lanjutkan ke Pembayaran
-            </button>
+              <Link
+                to={`/hotels/${hotel.id}/booking/payment`}
+                state={{
+                  hotelName: hotel.name,
+                  rooms: selectedRooms,
+                  checkIn,
+                  checkOut,
+                  totalPrice,
+                  lodgingId: hotel.id,
+                  guestAmount
+                }}
+              >
+                Lanjutkan ke Pembayaran
+              </Link>
+            </Button>
           </motion.div>
         </div>
       </motion.section>

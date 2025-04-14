@@ -1,8 +1,10 @@
 import axios from 'axios';
+import { getCookie } from './cookie';
 const baseURL =
   import.meta.env.VITE_API_BASE_URL || process.env.NEXT_PUBLIC_API_BASE_URL;
 const axiosInstance = axios.create({
-  baseURL
+  baseURL,
+  withCredentials: true
 });
 
 axiosInstance.interceptors.request.use(
@@ -13,7 +15,7 @@ axiosInstance.interceptors.request.use(
       // if (firebaseToken) {
       //   config.headers.Authorization = `Bearer ${firebaseToken}`;
       // }
-
+      config.headers.Authorization = `Bearer ${getCookie('token')}`;
       return config;
     } catch (error) {
       return Promise.reject(error);
