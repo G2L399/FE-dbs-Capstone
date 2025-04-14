@@ -4,30 +4,9 @@ import { motion, Variants } from 'framer-motion';
 import { reviews } from '@/types/review';
 import { Hotel } from '@/types/hotel';
 import { Star } from 'lucide-react';
-
-// Sample data for rooms and amenities
-const rooms = [
-  {
-    name: 'Superior room - 1 double bed or 2 twin beds',
-    price: 2450,
-    image: 'https://via.placeholder.com/100x60'
-  },
-  {
-    name: 'Superior room - City view - 1 double bed or 2 twin beds',
-    price: 5280,
-    image: 'https://via.placeholder.com/100x60'
-  },
-  {
-    name: 'Superior room - City view - 1 double bed or 2 twin beds',
-    price: 7323,
-    image: 'https://via.placeholder.com/100x60'
-  },
-  {
-    name: 'Superior room - City view - 1 double bed or 2 twin beds',
-    price: 9043,
-    image: 'https://via.placeholder.com/100x60'
-  }
-];
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { Room } from '@/types/room';
 
 const amenities = [
   { name: 'Outdoor pool', icon: '🏊' },
@@ -67,10 +46,8 @@ const HotelDetail = ({
     propertyType: string;
     updatedAt: string;
     reviews: reviews[];
-  };
+  } & { Rooms: Room[] };
 }) => {
-  console.log(hotel);
-
   // Animation variants
   const fadeInUp = {
     hidden: { opacity: 0, y: 50 },
@@ -87,8 +64,26 @@ const HotelDetail = ({
     }
   };
 
-  // State for favorite toggle
-  const [isFavorite, setIsFavorite] = useState(false);
+  function calculateAverageRating(
+    hotel: Hotel<{ reviews: reviews[] }>
+  ): number | null {
+    const { reviews } = hotel;
+
+    // If there are no reviews, return null or 0 as appropriate
+    if (reviews.length === 0) {
+      return null; // You can also return 0 if you prefer
+    }
+
+    // Calculate the sum of all ratings
+    const totalRating = reviews.reduce((sum, review) => sum + review.rating, 0);
+
+    // Calculate the average rating
+    const averageRating = totalRating / reviews.length;
+    console.log(averageRating);
+
+    // Return the average rating rounded to 2 decimal places
+    return Math.round(averageRating * 100) / 100;
+  }
 
   return (
     <div className='min-h-screen bg-white text-black'>
@@ -129,14 +124,28 @@ const HotelDetail = ({
             animate='visible'
           >
             <img
-              src='https://via.placeholder.com/500x400'
+              src={hotel.lodgingPictureUrl}
               alt='Traveler'
-              className='w-full rounded-lg shadow-lg'
+              className='max-h-96 w-full rounded-lg object-cover shadow-lg'
             />
             <div className='absolute top-0 right-0 flex items-center gap-2 rounded-full bg-white p-2 shadow-md'>
-              <span className='text-yellow-500'>★★★★★</span>
-              <span className='text-sm font-semibold'>5.0 Stars</span>
-              <span className='text-sm text-gray-600'>69k reviews</span>
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className='mr-1 size-3 text-yellow-500'
+                  fill={
+                    i >= Math.floor(calculateAverageRating(hotel)!)
+                      ? 'none'
+                      : 'currentColor'
+                  }
+                />
+              ))}
+              <span className='text-sm font-semibold'>
+                {calculateAverageRating(hotel)} Stars
+              </span>
+              <span className='text-sm text-gray-600'>
+                {hotel.reviews.length} Reviews
+              </span>
             </div>
           </motion.div>
         </div>
@@ -146,8 +155,6 @@ const HotelDetail = ({
       <Info
         staggerContainer={staggerContainer}
         fadeInUp={fadeInUp}
-        setIsFavorite={setIsFavorite}
-        isFavorite={isFavorite}
         hotel={hotel}
       />
 
@@ -229,29 +236,11 @@ export default HotelDetail;
 function Info({
   staggerContainer,
   fadeInUp,
-  setIsFavorite,
-  isFavorite,
   hotel
 }: {
   staggerContainer: Variants;
   fadeInUp: Variants;
-  setIsFavorite: (isFavorite: boolean) => void;
-  isFavorite: boolean;
-  hotel: {
-    address: string;
-    city: string;
-    country: string;
-    createdAt: string;
-    description: string;
-    id: number;
-    latitude: number;
-    lodgingPictureUrl: string;
-    longitude: number;
-    name: string;
-    pricePerNight: number;
-    propertyType: string;
-    reviews: reviews[];
-  };
+  hotel: Hotel<{ reviews: reviews[] }>;
 }) {
   function calculateAverageRating(
     hotel: Hotel<{ reviews: reviews[] }>
@@ -309,7 +298,7 @@ function Info({
                       : 'currentColor'
                   }
                 />
-              ))}{' '}
+              ))}
               {calculateAverageRating(hotel)?.toFixed(0)} Star Hotel
             </div>
           </div>
@@ -318,15 +307,9 @@ function Info({
               ${hotel.pricePerNight}/Night
             </p>
             <div className='mt-2 flex items-center gap-2'>
-              <button
-                onClick={() => setIsFavorite(!isFavorite)}
-                className={`text-2xl ${isFavorite ? 'text-red-500' : 'text-gray-400'}`}
-              >
-                {isFavorite ? '❤️' : '🤍'}
-              </button>
-              <button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
-                Book Now
-              </button>
+              <Button className='rounded-full bg-teal-600 px-6 py-2 text-white transition hover:bg-teal-700'>
+                <Link to={`/hotels/${hotel.id}/booking`}>Book Now</Link>
+              </Button>
             </div>
           </div>
         </motion.div>

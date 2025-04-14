@@ -13,3 +13,7 @@ export const byID = async (id: number) => {
   const result = await axiosInstance.get(`/hotels/${id}`);
   return result.data;
 };
+export const booking = async (id: number) => {
+  const result = await axiosInstance.get(`/hotels/${id}/booking`);
+  return result.data;
+};
