@@ -3,9 +3,14 @@ import type { Destination } from '@/destination/destination-card';
 
 interface DestinationsResponse {
   destinations: Destination[];
-  total: number;
+  meta: meta;
 }
-
+interface meta {
+  currentPage: number;
+  itemsPerPage: number;
+  totalItems: number;
+  totalPages: number;
+}
 export const getdestinations = async (
   page = 1,
   limit = 9,

@@ -15,6 +15,7 @@ import {
   SelectValue
 } from '@/components/ui/select';
 import { Search, ChevronLeft, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 function DestinationsPage() {
   const [destinations, setDestinations] = useState<Destination[]>([]);
@@ -54,8 +55,9 @@ function DestinationsPage() {
       setLoading(true);
       try {
         const data = await getdestinations(page, limit, search, city);
+
         setDestinations(data.destinations || []);
-        setTotal(data.total);
+        setTotal(data.meta.totalPages);
       } catch (err) {
         console.error('Error fetching destinations:', err);
         setError('Failed to load destinations. Please try again later.');
@@ -236,10 +238,13 @@ function DestinationsPage() {
                 return (
                   <Button
                     key={pageNum}
-                    variant={page === pageNum ? 'default' : 'outline'}
+                    variant='outline'
                     size='sm'
                     onClick={() => setPage(pageNum)}
-                    className='h-8 w-8 p-0'
+                    className={cn(
+                      'text-foreground h-8 w-8 p-0',
+                      page === pageNum ? 'bg-black/10' : null
+                    )}
                   >
                     {pageNum}
                   </Button>
