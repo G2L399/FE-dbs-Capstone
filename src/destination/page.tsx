@@ -147,12 +147,14 @@ function DestinationsPage() {
             />
             <Search className='absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 transform text-gray-400' />
           </div>
-          <Button type='submit'>Search</Button>
+          <Button className='text-foreground border-2 shadow-2xl' type='submit'>
+            Search
+          </Button>
         </form>
 
         <div className='w-full md:w-64'>
           <Select value={city} onValueChange={handleCityChange}>
-            <SelectTrigger>
+            <SelectTrigger className='w-full'>
               <SelectValue placeholder='Filter by city' />
             </SelectTrigger>
             <SelectContent>

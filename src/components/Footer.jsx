@@ -4,7 +4,7 @@ function Footer() {
   return (
     <footer className='bg-white pt-16 pb-6'>
       <div className='container mx-auto px-4'>
-        <div className='footer-content mb-16 grid grid-cols-1 gap-8 md:grid-cols-4'>
+        <div className='footer-content mb-16 grid grid-cols-[1fr_3fr] gap-8'>
           <div className='footer-brand'>
             <div className='logo mb-4'>
               <img
@@ -41,83 +41,83 @@ function Footer() {
             </div>
           </div>
 
-          <div className='footer-links'>
-            <h3 className='mb-4 text-lg font-semibold'>Company</h3>
-            <ul className='space-y-3'>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  About Us
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Community Blog
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Jobs & Careers
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Contact Us
-                </a>
-              </li>
-            </ul>
-          </div>
+          <div className='grid grid-cols-4'>
+            <div>
+              <h3 className='mb-4 text-lg font-semibold'>Company</h3>
+              <ul className='space-y-3'>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    About Us
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Community Blog
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Jobs & Careers
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Contact Us
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className='footer-links'>
-            <h3 className='mb-4 text-lg font-semibold'>Services</h3>
-            <ul className='space-y-3'>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Tour Guide
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Tour Booking
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Hotel Booking
-                </a>
-              </li>
-              <li>
-                <a
-                  href='#'
-                  className='text-gray-500 transition hover:text-gray-800'
-                >
-                  Ticket Booking
-                </a>
-              </li>
-            </ul>
-          </div>
+            <div>
+              <h3 className='mb-4 text-lg font-semibold'>Services</h3>
+              <ul className='space-y-3'>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Tour Guide
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Tour Booking
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Hotel Booking
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href='#'
+                    className='text-gray-500 transition hover:text-gray-800'
+                  >
+                    Ticket Booking
+                  </a>
+                </li>
+              </ul>
+            </div>
 
-          <div className='footer-links grid grid-cols-2'>
             <div>
               <h3 className='mb-4 text-lg font-semibold'>Legal</h3>
               <ul className='space-y-3'>
@@ -163,6 +163,7 @@ function Footer() {
                 </li>
               </ul>
             </div>
+
             <div>
               <h3 className='mb-4 text-lg font-semibold'>Support</h3>
               <ul className='space-y-3'>

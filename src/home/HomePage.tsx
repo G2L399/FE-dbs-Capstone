@@ -12,6 +12,8 @@ import { cn } from '@/lib/utils';
 import { dashboardData } from '@/types/dashboard';
 import { travelDestination, travelTicket } from '@/types/destination';
 import { reviews } from '@/types/review';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 function App({
   data,
@@ -303,7 +305,7 @@ function Recommendation({
             </p>
           </div>
 
-          <div className={cn('filters hidden gap-3 md:flex')}>
+          <div className={cn('hidden gap-3 md:flex')}>
             <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
               <span>Categories</span>
               <ChevronDown width={20} />
@@ -417,9 +419,11 @@ function TopHotel({ hotel }: { hotel: dashboardData['topRatedHotels'] }) {
                     </span>
                     <span className='text-sm text-gray-500'> / night</span>
                   </div>
-                  <button className='book-now-btn rounded-md bg-gray-100 px-4 py-2 transition hover:bg-gray-200'>
-                    Book Now
-                  </button>
+                  <Link to={`/hotels/${hotel.id}`}>
+                    <Button className='book-now-btn text-foreground rounded-md bg-gray-100 px-4 py-2 transition hover:bg-gray-200'>
+                      Book Now
+                    </Button>
+                  </Link>
                 </div>
               </div>
             </div>
