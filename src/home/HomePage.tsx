@@ -5,17 +5,24 @@ import {
   ArrowRightCircle,
   Heart,
   Star,
-  MapPin
+  MapPin,
+  Search
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { dashboardData } from '@/types/dashboard';
+import { travelDestination, travelTicket } from '@/types/destination';
+import { reviews } from '@/types/review';
 
 function App({
   data,
   recommendation
 }: {
   data: dashboardData;
-  recommendation: any;
+  recommendation: travelDestination<{
+    reviews: reviews[];
+    categories: string[];
+    travelTickets: travelTicket<{}>[];
+  }>[];
 }) {
   console.log(recommendation);
   const [searchQuery, setSearchQuery] = useState('');
@@ -27,21 +34,7 @@ function App({
       <section className='py-8'>
         <div className='container mx-auto px-4'>
           <div className='search-box mx-auto flex max-w-4xl items-center rounded-full bg-gray-100 p-2 px-4'>
-            <svg
-              xmlns='http://www.w3.org/2000/svg'
-              width='20'
-              height='20'
-              viewBox='0 0 24 24'
-              fill='none'
-              stroke='currentColor'
-              strokeWidth='2'
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              className='mr-3'
-            >
-              <circle cx='11' cy='11' r='8'></circle>
-              <line x1='21' y1='21' x2='16.65' y2='16.65'></line>
-            </svg>
+            <Search width={20} />
             <input
               type='text'
               placeholder='What are you looking for?'
@@ -86,312 +79,41 @@ function App({
             <div className='filters flex flex-wrap gap-3'>
               <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Categories</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
               <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Duration</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
               <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Review / Rating</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
 
               <div className='filter-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
                 <span>Price range</span>
-                <svg
-                  xmlns='http://www.w3.org/2000/svg'
-                  width='16'
-                  height='16'
-                  viewBox='0 0 24 24'
-                  fill='none'
-                  stroke='currentColor'
-                  strokeWidth='2'
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  className='ml-2'
-                >
-                  <polyline points='6 9 12 15 18 9'></polyline>
-                </svg>
+                <ChevronDown width={20} />
               </div>
             </div>
 
             <div className='sort-dropdown flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
               <span>Sort from High to Low</span>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                width='16'
-                height='16'
-                viewBox='0 0 24 24'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                strokeLinecap='round'
-                strokeLinejoin='round'
-                className='ml-2'
-              >
-                <polyline points='6 15 12 9 18 15'></polyline>
-              </svg>
+              <ChevronDown width={20} />
             </div>
           </div>
         </div>
       </section>
 
       {/* Popular Destinations Section */}
-      <section className='py-12'>
-        <div className='container mx-auto px-4'>
-          <div className='mb-6 flex items-end justify-between'>
-            <div>
-              <h2 className='mb-2 text-4xl font-bold'>Popular Destinations</h2>
-              <p className='text-gray-500'>
-                Favorite destinations based on customer reviews
-              </p>
-            </div>
+      <Popular popularDestinations={data.popularDestinations} />
 
-            <div className={cn('filters hidden gap-3 md:flex')}>
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Categories</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Duration</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Review / Rating</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Price range</span>
-                <ChevronDown width={20} />
-              </div>
-            </div>
-          </div>
-
-          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {data.popularDestinations.map((destination) => (
-              <div
-                key={destination.id}
-                className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
-              >
-                <img
-                  src={destination.travelPictureUrl!}
-                  alt={destination.name}
-                  className='max-h-48 w-full rounded-3xl object-cover'
-                />
-                <div className='mt-4 grid grid-cols-[3fr_1fr]'>
-                  <div className='grid grid-cols-1 grid-rows-2'>
-                    <h3 className='text-xl font-semibold'>
-                      {destination.name}
-                    </h3>
-                    <div className='flex items-end justify-between'>
-                      <span className='text-sm text-gray-500'>
-                        {destination.popularity} Tours,{' '}
-                        {destination.reviewCount} Activities
-                      </span>
-                    </div>
-                  </div>
-                  <div className='flex items-end justify-end'>
-                    <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
-                  </div>
-                </div>
-              </div>
-            ))}
-
-            <div className='crafting-card flex flex-col justify-center overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-6 shadow-sm'>
-              <h3 className='mb-2 text-2xl font-semibold'>
-                Crafting Your Perfect Travel Experience
-              </h3>
-              <div className='mt-6'>
-                <button className='browse-btn flex items-center justify-between gap-4 rounded-full bg-black px-6 py-3 text-white'>
-                  <span>Browse All destinations</span>
-                  <ArrowRightCircle />
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className='py-12'>
-        <div className='container mx-auto px-4'>
-          <div className='mb-6 flex items-end justify-between'>
-            <div>
-              <h2 className='mb-2 text-4xl font-bold'>
-                Based On Your Recent Destination
-              </h2>
-              <p className='text-gray-500'>
-                destinations based on your recent destination
-              </p>
-            </div>
-
-            <div className={cn('filters hidden gap-3 md:flex')}>
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Categories</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Duration</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Review / Rating</span>
-                <ChevronDown width={20} />
-              </div>
-
-              <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
-                <span>Price range</span>
-                <ChevronDown width={20} />
-              </div>
-            </div>
-          </div>
-
-          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-            {recommendation.map((destination) => (
-              <div
-                key={destination.id}
-                className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
-              >
-                <img
-                  src={
-                    destination.travelPictureUrl ??
-                    '/assets/destination_placeholder.jpg?height=800&width=1200'
-                  }
-                  alt={destination.Place_Name}
-                  className='max-h-48 w-full rounded-3xl object-cover'
-                />
-
-                <div className='mt-4 grid grid-cols-[3fr_1fr]'>
-                  <div className='grid grid-cols-1 grid-rows-2'>
-                    <h3 className='text-xl font-semibold'>
-                      {destination.Place_Name}
-                    </h3>
-
-                    <div className='flex items-end justify-between'>
-                      <span className='text-sm text-gray-500'>
-                        {destination.popularity} Tours,{' '}
-                        {destination.reviewCount} Activities
-                      </span>
-                    </div>
-                  </div>
-                  <div className='flex items-end justify-end'>
-                    <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* Based On Your Recent Destination Section */}
+      <Recommendation recommendation={recommendation} />
 
       {/* Top Rated Hotels Section */}
-      <section className='top-rated-hotels bg-pink-50 py-12'>
-        <div className='container mx-auto px-4'>
-          <div className='section-header mb-6 flex items-end justify-between'>
-            <div>
-              <h2 className='mb-2 text-4xl font-bold'>Top Rated Hotels</h2>
-              <p className='text-gray-500'>
-                Quality as judged by customers. Book at the ideal price!
-              </p>
-            </div>
-
-            <button className='view-more-btn flex items-center rounded-full bg-black px-4 py-2 text-white'>
-              <span className='mr-2'>View More</span>
-              <ArrowRight width={20} />
-            </button>
-          </div>
-
-          <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
-            {data.topRatedHotels.map((hotel) => (
-              <div
-                key={hotel.id}
-                className='hotel-card overflow-hidden rounded-lg bg-white shadow-sm'
-              >
-                <div className='hotel-image relative'>
-                  <img
-                    src={hotel.lodgingPictureUrl!}
-                    alt={hotel.name}
-                    className='h-48 w-full object-cover'
-                  />
-                  <button className='absolute top-3 right-3 rounded-full bg-white p-2 shadow-md'>
-                    <Heart />
-                  </button>
-                  <div className='absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-white px-2 py-1 shadow-md'>
-                    <Star width={15} className='stroke-yellow-500' />
-                    <span className='text-sm font-medium'>
-                      {hotel.avgRating} ({hotel.reviewCount} reviews)
-                    </span>
-                  </div>
-                </div>
-                <div className='p-4'>
-                  <h3 className='mb-2 text-xl font-semibold'>{hotel.name}</h3>
-                  <div className='mb-4 flex items-center text-gray-500'>
-                    <MapPin width={15} />
-                    <span className='text-sm'>{hotel.address}</span>
-                  </div>
-                  <div className='flex items-center justify-between'>
-                    <div className='price'>
-                      <span className='text-xl font-bold'>
-                        ${hotel.pricePerNight}
-                      </span>
-                      <span className='text-sm text-gray-500'> / night</span>
-                    </div>
-                    <button className='book-now-btn rounded-md bg-gray-100 px-4 py-2 transition hover:bg-gray-200'>
-                      Book Now
-                    </button>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <TopHotel hotel={data.topRatedHotels} />
 
       {/* Newsletter Section */}
       <section className='newsletter bg-blue-50 py-12'>
@@ -474,3 +196,236 @@ function App({
 }
 
 export default App;
+
+function Popular({
+  popularDestinations
+}: {
+  popularDestinations: dashboardData['popularDestinations'];
+}) {
+  return (
+    <section className='py-12'>
+      <div className='container mx-auto px-4'>
+        <div className='mb-6 flex items-end justify-between'>
+          <div>
+            <h2 className='mb-2 text-4xl font-bold'>Popular Destinations</h2>
+            <p className='text-gray-500'>
+              Favorite destinations based on customer reviews
+            </p>
+          </div>
+
+          <div className={cn('filters hidden gap-3 md:flex')}>
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Categories</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Duration</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Review / Rating</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Price range</span>
+              <ChevronDown width={20} />
+            </div>
+          </div>
+        </div>
+
+        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {popularDestinations.map((destination) => (
+            <div
+              key={destination.id}
+              className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+            >
+              <img
+                src={destination.travelPictureUrl!}
+                alt={destination.name}
+                className='max-h-48 w-full rounded-3xl object-cover'
+              />
+              <div className='mt-4 grid grid-cols-[3fr_1fr]'>
+                <div className='grid grid-cols-1 grid-rows-2'>
+                  <h3 className='text-xl font-semibold'>{destination.name}</h3>
+                  <div className='flex items-end justify-between'>
+                    <span className='text-sm text-gray-500'>
+                      {destination.popularity} Tours, {destination.reviewCount}{' '}
+                      Activities
+                    </span>
+                  </div>
+                </div>
+                <div className='flex items-end justify-end'>
+                  <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
+                </div>
+              </div>
+            </div>
+          ))}
+
+          <div className='crafting-card flex flex-col justify-center overflow-hidden rounded-lg border border-gray-100 bg-gray-50 p-6 shadow-sm'>
+            <h3 className='mb-2 text-2xl font-semibold'>
+              Crafting Your Perfect Travel Experience
+            </h3>
+            <div className='mt-6'>
+              <button className='browse-btn flex items-center justify-between gap-4 rounded-full bg-black px-6 py-3 text-white'>
+                <span>Browse All destinations</span>
+                <ArrowRightCircle />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Recommendation({
+  recommendation
+}: {
+  recommendation: travelDestination<{
+    reviews: reviews[];
+    categories: string[];
+    travelTickets: travelTicket<{}>[];
+  }>[];
+}) {
+  return (
+    <section className='py-12'>
+      <div className='container mx-auto px-4'>
+        <div className='mb-6 flex items-end justify-between'>
+          <div>
+            <h2 className='mb-2 text-4xl font-bold'>
+              Based On Your Recent Destination
+            </h2>
+            <p className='text-gray-500'>
+              destinations based on your recent destination
+            </p>
+          </div>
+
+          <div className={cn('filters hidden gap-3 md:flex')}>
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Categories</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Duration</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Review / Rating</span>
+              <ChevronDown width={20} />
+            </div>
+
+            <div className='flex cursor-pointer items-center rounded-full bg-gray-100 px-4 py-2'>
+              <span>Price range</span>
+              <ChevronDown width={20} />
+            </div>
+          </div>
+        </div>
+
+        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          {recommendation.map((destination, index) => (
+            <div
+              key={index}
+              className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+            >
+              <img
+                src={
+                  destination.travelPictureUrl ??
+                  '/assets/destination_placeholder.jpg?height=800&width=1200'
+                }
+                alt={destination.name}
+                className='max-h-48 w-full rounded-3xl object-cover'
+              />
+
+              <div className='mt-4 grid grid-cols-[3fr_1fr]'>
+                <div className='grid grid-cols-1 grid-rows-2'>
+                  <h3 className='text-xl font-semibold'>{destination.name}</h3>
+
+                  <div className='flex items-end justify-between'>
+                    <span className='text-sm text-gray-500'>
+                      {destination.travelTickets.length} Tours,{' '}
+                      {destination.reviews.length} Activities
+                    </span>
+                  </div>
+                </div>
+                <div className='flex items-end justify-end'>
+                  <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function TopHotel({ hotel }: { hotel: dashboardData['topRatedHotels'] }) {
+  return (
+    <section className='top-rated-hotels bg-pink-50 py-12'>
+      <div className='container mx-auto px-4'>
+        <div className='section-header mb-6 flex items-end justify-between'>
+          <div>
+            <h2 className='mb-2 text-4xl font-bold'>Top Rated Hotels</h2>
+            <p className='text-gray-500'>
+              Quality as judged by customers. Book at the ideal price!
+            </p>
+          </div>
+
+          <button className='view-more-btn flex items-center rounded-full bg-black px-4 py-2 text-white'>
+            <span className='mr-2'>View More</span>
+            <ArrowRight width={20} />
+          </button>
+        </div>
+
+        <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3'>
+          {hotel.map((hotel) => (
+            <div
+              key={hotel.id}
+              className='hotel-card overflow-hidden rounded-lg bg-white shadow-sm'
+            >
+              <div className='hotel-image relative'>
+                <img
+                  src={hotel.lodgingPictureUrl!}
+                  alt={hotel.name}
+                  className='h-48 w-full object-cover'
+                />
+                <button className='absolute top-3 right-3 rounded-full bg-white p-2 shadow-md'>
+                  <Heart />
+                </button>
+                <div className='absolute bottom-3 left-3 flex items-center gap-1 rounded-full bg-white px-2 py-1 shadow-md'>
+                  <Star width={15} className='stroke-yellow-500' />
+                  <span className='text-sm font-medium'>
+                    {hotel.avgRating} ({hotel.reviewCount} reviews)
+                  </span>
+                </div>
+              </div>
+              <div className='p-4'>
+                <h3 className='mb-2 text-xl font-semibold'>{hotel.name}</h3>
+                <div className='mb-4 flex items-center text-gray-500'>
+                  <MapPin width={15} />
+                  <span className='text-sm'>{hotel.address}</span>
+                </div>
+                <div className='flex items-center justify-between'>
+                  <div className='price'>
+                    <span className='text-xl font-bold'>
+                      ${hotel.pricePerNight}
+                    </span>
+                    <span className='text-sm text-gray-500'> / night</span>
+                  </div>
+                  <button className='book-now-btn rounded-md bg-gray-100 px-4 py-2 transition hover:bg-gray-200'>
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}

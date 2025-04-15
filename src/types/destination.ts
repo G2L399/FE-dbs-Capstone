@@ -11,7 +11,7 @@ export type travelTicket<T> = {
   createdAt: string;
   updatedAt: string;
 } & T;
-export type travelDestination = {
+export type travelDestination<T> = {
   id: number;
   name: string;
   description: string;
@@ -26,4 +26,4 @@ export type travelDestination = {
   avg_rating: number;
   createdAt: string;
   updatedAt: string;
-};
+} & T;
