@@ -15,7 +15,11 @@ export const login = async ({
     email,
     password
   });
-  setCookie({ name: 'token', value: result.data.token });
+  setCookie({
+    name: 'token',
+    value: result.data.token,
+    endDateFromNowInM: 60 * 24 * 7
+  });
 
   return { data: result.data, success: true };
 };

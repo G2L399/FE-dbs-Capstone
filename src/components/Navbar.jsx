@@ -71,10 +71,10 @@ function Navbar() {
           </div>
 
           <div className='hidden space-x-8 md:flex'>
-            <a href='#' className='font-medium hover:text-blue-600'>
+            <a href='/' className='font-medium hover:text-blue-600'>
               Home
             </a>
-            <a href='#' className='font-medium hover:text-blue-600'>
+            <a href='/destination' className='font-medium hover:text-blue-600'>
               Tours
             </a>
             <a href='/hotels' className='font-medium hover:text-blue-600'>
