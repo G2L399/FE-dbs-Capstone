@@ -1,11 +1,69 @@
-import { Link } from 'react-router-dom';
+import { BaseSyntheticEvent, useState } from 'react';
+import 'react-datepicker/dist/react-datepicker.css';
 import { Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { type Destination } from '../destination-card';
 import { cn } from '@/lib/utils';
-export default function page({ destination }: { destination: Destination }) {
-  console.log(destination);
+import { destinationPay } from '@/api/destination';
+
+export default function Page({ destination }: { destination: Destination }) {
+  const [formData, setFormData] = useState({
+    amount: destination.price,
+    bank: 'OTHER',
+    vaNumber: null,
+    paymentType: 'virtual_account',
+    guestAmount: 0,
+    visitDate: new Date().toISOString()
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    let { name, value } = e.target;
+    if (name == 'guestAmount') {
+      if (Number(value) < 1) {
+        alert('Guest amount must be at least 1');
+        return;
+      }
+    }
+    console.log(name, value);
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+  // const handleChangeDate = (e) => {
+  //   let date = new Date(e);
+  //   let Year = date.getFullYear();
+  //   let Month = String(date.getMonth() + 1).padStart(2, '0');
+  //   let Day = String(date.getDate()).padStart(2, '0');
+  //   let Hours = String(date.getHours()).padStart(2, '0');
+  //   let Minutes = String(date.getMinutes()).padStart(2, '0');
+
+  //   // Step 3: Format the output as YYYY-MM-DDTHH:mm
+  //   let formattedDate = `${Year}-${Month}-${Day}T${Hours}:${Minutes}`;
+  //   console.log(formattedDate); // Output: 2025-04-16T11:00
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     visitDate: formattedDate
+  //   }));
+  // };
+
+  const handlePay = async (e: BaseSyntheticEvent) => {
+    e.preventDefault();
+    if (formData.guestAmount < 1) {
+      alert('Guest amount must be at least 1');
+      return;
+    }
+    const data = {
+      ...formData,
+      travelDestinationId: destination.id
+    };
+    const result = await destinationPay(data);
+    console.log(result);
+  };
 
   return (
     <div className='container mx-auto px-4 py-8 md:py-12'>
@@ -19,7 +77,7 @@ export default function page({ destination }: { destination: Destination }) {
             />
           </div>
         </div>
-        <div className='grid h-[700px] grid-rows-[1fr_1fr]'>
+        <div className='grid h-[700px] grid-rows-[1fr_auto]'>
           <div className='mb-8 overflow-auto'>
             <h1 className='mb-2 text-3xl font-bold text-gray-900'>
               {destination.name}
@@ -46,31 +104,56 @@ export default function page({ destination }: { destination: Destination }) {
             </div>
             <p className='mb-4 text-gray-700'>{destination.description}</p>
           </div>
-          <Card className='flex flex-col justify-between gap-4 p-6 shadow-sm'>
-            <h2 className='text-lg font-semibold'>Plan Saat Ini</h2>
-            <div>
-              <h3 className='mb-2 text-sm font-medium'>Travel</h3>
-              <div className='flex items-center justify-between'>
-                <span className='text-2xl font-bold'>Angkot</span>
+          <Card className='p-6 shadow-sm'>
+            <form className='space-y-4'>
+              <div>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Guest Amount
+                </label>
+                <input
+                  type='number'
+                  name='guestAmount'
+                  value={formData.guestAmount}
+                  onChange={handleChange}
+                  min={1}
+                  required
+                  className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                />
               </div>
-            </div>
-            <div>
-              <h3 className='mb-2 text-sm font-medium'>Penginapan</h3>
-              <div className='flex items-center justify-between'>
-                <span className='text-2xl font-bold'>Rumah Bordil</span>
+              <div className='[&>div]:w-full'>
+                <label className='block text-sm font-medium text-gray-700'>
+                  Visit Date
+                </label>
+                {/* <DatePicker
+                  name='visitDate'
+                  selected={new Date(formData.visitDate)}
+                  onChange={handleChangeDate}
+                  minDate={new Date()}
+                  dateFormat='dd MMMM yyyy h:mm aa'
+                  showTimeSelect // Enable time selection in the DatePicker
+                  timeFormat='h:mm aa'
+                  timeIntervals={1}
+                  locale={id}
+                  className='focus:ring-2 focus:ring-teal-300 focus:outline-none w-full p-3 text-gray-700 border rounded-md'
+                  placeholderText='Check In'
+                /> */}
+                <input
+                  type='datetime-local'
+                  name='visitDate'
+                  value={formData.visitDate}
+                  onChange={handleChange}
+                  required
+                  className='mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm'
+                />
               </div>
-            </div>
-            <div>
-              <h3 className='mb-2 text-sm font-medium'>Destinasi</h3>
-              <div className='flex items-center justify-between'>
-                <span className='text-2xl font-bold'>Raja Ampat</span>
-              </div>
-            </div>
-            <Link to={`/destination`}>
-              <Button className='mt-4 w-full bg-gray-900 hover:bg-gray-800'>
-                Change Destination
+              <Button
+                type='submit'
+                onClick={handlePay}
+                className='text-foreground bg-background border-2 hover:bg-current/10'
+              >
+                Pay Now
               </Button>
-            </Link>
+            </form>
           </Card>
         </div>
       </div>

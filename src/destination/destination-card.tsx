@@ -153,7 +153,7 @@ export function DestinationCard({
         </h3>
 
         <div className='mb-2 text-sm text-gray-500'>
-          {destination.city}, Indonesia
+          {destination.city}, {destination.country}
         </div>
 
         <div className='mb-3 flex items-center gap-4 text-sm text-gray-500'>
@@ -169,9 +169,7 @@ export function DestinationCard({
 
         <div className='flex items-center justify-between'>
           <div>
-            <span className='text-xl font-bold'>
-              {formatPrice(destination.price)}
-            </span>
+            <span className='text-xl font-bold'>${destination.price}</span>
             <span className='text-sm text-gray-500'> / person</span>
           </div>
           <Link to={`/destination/${destination.id}`}>

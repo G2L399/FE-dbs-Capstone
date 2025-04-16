@@ -85,9 +85,6 @@ function Navbar() {
             <a href='/tickets' className='font-medium hover:text-blue-600'>
               Tickets
             </a>
-            <a href='#' className='font-medium hover:text-blue-600'>
-              Contact
-            </a>
           </div>
         </div>
 

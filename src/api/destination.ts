@@ -44,3 +44,15 @@ export const getIndonesianCities = async (): Promise<string[]> => {
   const result = await axiosInstance.get('/destination/cities');
   return result.data.cities;
 };
+
+export const destinationPay = async (data) => {
+  try {
+    console.log(data);
+
+    const result = await axiosInstance.post(`/destination/payment`, data);
+    return result.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
