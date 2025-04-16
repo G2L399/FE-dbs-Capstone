@@ -15,9 +15,9 @@ export default function LoginPage() {
 
   // Images for slideshow
   const images = [
-    '/api/placeholder/800/600', // Resort with pool
-    '/api/placeholder/800/600', // Another vacation spot
-    '/api/placeholder/800/600' // Third vacation spot
+    '/assets/resorts/res1.png',
+    '/assets/resorts/res2.png',
+    '/assets/resorts/res3.png'
   ];
 
   // Animation for elements coming in
