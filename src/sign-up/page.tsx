@@ -1,7 +1,13 @@
+'use client';
+
 import { useState, useEffect } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff, Loader2 } from 'lucide-react';
+import { signup } from '@/api/signup';
+import { useNavigate } from 'react-router-dom'; // Changed from next/navigation
+import { Link } from 'react-router-dom'; // Changed from next/link
 
 export default function RegisterPage() {
+  const navigate = useNavigate(); // Changed from useRouter
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
@@ -12,6 +18,9 @@ export default function RegisterPage() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [slideIndex, setSlideIndex] = useState(0);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState('');
 
   // Images for slideshow
   const images = [
@@ -38,16 +47,61 @@ export default function RegisterPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
-    console.log('Register with:', {
-      firstName,
-      lastName,
-      email,
-      phoneNumber,
-      password
-    });
-    // Add your registration logic here
+    setError('');
+    setSuccessMessage('');
+
+    // Validate passwords match
+    if (password !== confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Validate password length
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Create username from first name and last name
+      const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}`;
+
+      const response = await signup({
+        email,
+        password,
+        username
+      });
+
+      if (response.success) {
+        setSuccessMessage(
+          'Account created successfully! Redirecting to login...'
+        );
+
+        // Clear form
+        setFirstName('');
+        setLastName('');
+        setEmail('');
+        setPhoneNumber('');
+        setPassword('');
+        setConfirmPassword('');
+
+        // Redirect to login after a delay
+        setTimeout(() => {
+          navigate('/sign'); // Changed from router.push
+        }, 2000);
+      } else {
+        setError(response.error);
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+      console.error('Registration error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const togglePasswordVisibility = () => {
@@ -69,7 +123,7 @@ export default function RegisterPage() {
             style={{ opacity: slideIndex === index ? 1 : 0 }}
           >
             <img
-              src={image}
+              src={image || '/placeholder.svg'}
               alt='Resort view'
               className='h-full w-full object-cover'
             />
@@ -169,6 +223,19 @@ export default function RegisterPage() {
             <h1 className='mb-2 text-3xl font-bold'>Sign up</h1>
             <p className='text-gray-600'>Register your account</p>
           </div>
+
+          {/* Error and Success Messages */}
+          {error && (
+            <div className='mb-4 rounded-md bg-red-50 p-3 text-sm text-red-600'>
+              {error}
+            </div>
+          )}
+
+          {successMessage && (
+            <div className='mb-4 rounded-md bg-green-50 p-3 text-sm text-green-600'>
+              {successMessage}
+            </div>
+          )}
 
           {/* Register Form */}
           <form onSubmit={handleRegister} className='space-y-4'>
@@ -337,9 +404,17 @@ export default function RegisterPage() {
             >
               <button
                 type='submit'
-                className='flex w-full transform justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:scale-[1.02] hover:bg-gray-800 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-[0.98]'
+                disabled={isSubmitting}
+                className='flex w-full transform justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-300 hover:scale-[1.02] hover:bg-gray-800 hover:shadow-lg focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:outline-none active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-70'
               >
-                Create account
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className='mr-2 h-4 w-4 animate-spin' />
+                    Creating account...
+                  </>
+                ) : (
+                  'Create account'
+                )}
               </button>
             </div>
           </form>
@@ -350,12 +425,12 @@ export default function RegisterPage() {
           >
             <p className='text-sm text-gray-600'>
               Already have an account?
-              <a
-                href='../sign'
+              <Link
+                to='/sign' // Changed from href to to
                 className='ml-1 font-medium text-red-500 transition-colors duration-300 hover:text-red-400'
               >
                 Login
-              </a>
+              </Link>
             </p>
           </div>
         </div>
