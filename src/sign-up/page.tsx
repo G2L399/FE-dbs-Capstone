@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, BaseSyntheticEvent } from 'react';
 import { Eye, EyeOff, Loader2 } from 'lucide-react';
 import { signup } from '@/api/signup';
 import { useNavigate } from 'react-router-dom'; // Changed from next/navigation
@@ -8,10 +8,8 @@ import { Link } from 'react-router-dom'; // Changed from next/link
 
 export default function RegisterPage() {
   const navigate = useNavigate(); // Changed from useRouter
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
+  const [username, setUserName] = useState('');
   const [email, setEmail] = useState('');
-  const [phoneNumber, setPhoneNumber] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -47,7 +45,9 @@ export default function RegisterPage() {
     return () => clearInterval(interval);
   }, []);
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: BaseSyntheticEvent) => {
+    console.log(e);
+
     e.preventDefault();
     setError('');
     setSuccessMessage('');
@@ -67,9 +67,7 @@ export default function RegisterPage() {
     setIsSubmitting(true);
 
     try {
-      // Create username from first name and last name
-      const username = `${firstName.toLowerCase()}${lastName.toLowerCase()}`;
-
+      // Create username from first name and last nam
       const response = await signup({
         email,
         password,
@@ -81,17 +79,14 @@ export default function RegisterPage() {
           'Account created successfully! Redirecting to login...'
         );
 
-        // Clear form
-        setFirstName('');
-        setLastName('');
+        setUserName('');
         setEmail('');
-        setPhoneNumber('');
         setPassword('');
         setConfirmPassword('');
 
         // Redirect to login after a delay
         setTimeout(() => {
-          navigate('/sign'); // Changed from router.push
+          navigate('/sign-in'); // Changed from router.push
         }, 2000);
       } else {
         setError(response.error);
@@ -246,35 +241,18 @@ export default function RegisterPage() {
                 opacity: isLoading ? 0 : 1
               }}
             >
-              <div>
+              <div className='col-span-2'>
                 <label
-                  htmlFor='firstName'
+                  htmlFor='fullName'
                   className='block text-sm font-medium text-gray-700'
                 >
-                  First Name
-                </label>
-                <input
-                  id='firstName'
-                  type='text'
-                  value={firstName}
-                  onChange={(e) => setFirstName(e.target.value)}
-                  placeholder='john'
-                  className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-300 focus:border-blue-500 focus:ring-blue-500 focus:outline-none'
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor='lastName'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Last Name
+                  Full Name
                 </label>
                 <input
                   id='lastName'
                   type='text'
-                  value={lastName}
-                  onChange={(e) => setLastName(e.target.value)}
+                  value={username}
+                  onChange={(e) => setUserName(e.target.value)}
                   placeholder='doe'
                   className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-300 focus:border-blue-500 focus:ring-blue-500 focus:outline-none'
                   required
@@ -289,7 +267,7 @@ export default function RegisterPage() {
                 opacity: isLoading ? 0 : 1
               }}
             >
-              <div>
+              <div className='col-span-2'>
                 <label
                   htmlFor='email'
                   className='block text-sm font-medium text-gray-700'
@@ -302,23 +280,6 @@ export default function RegisterPage() {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder='john.doe@gmail.com'
-                  className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-300 focus:border-blue-500 focus:ring-blue-500 focus:outline-none'
-                  required
-                />
-              </div>
-              <div>
-                <label
-                  htmlFor='phoneNumber'
-                  className='block text-sm font-medium text-gray-700'
-                >
-                  Phone Number
-                </label>
-                <input
-                  id='phoneNumber'
-                  type='tel'
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  placeholder='0882-8439-4387'
                   className='mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 shadow-sm transition-colors duration-300 focus:border-blue-500 focus:ring-blue-500 focus:outline-none'
                   required
                 />
