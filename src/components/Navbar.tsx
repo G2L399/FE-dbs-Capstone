@@ -1,7 +1,9 @@
-import { useNavigate } from 'react-router-dom';
-
+import { Link } from 'react-router-dom';
+import { Button } from './ui/button';
+import { getCookie } from '@/lib/cookie';
 function Navbar() {
-  const navigate = useNavigate();
+  const isLogin = Boolean(getCookie('token'));
+  console.log(isLogin);
 
   return (
     <nav className='navbar'>
@@ -90,12 +92,11 @@ function Navbar() {
         </div>
 
         <div className='flex items-center space-x-4'>
-          <button
-            onClick={() => navigate('/sign-in')}
-            className='ml-4 rounded-md px-4 py-2 font-medium hover:bg-gray-100'
-          >
-            Sign in
-          </button>
+          <Link to={isLogin ? '/profile' : '/sign-in'}>
+            <Button className='text-foreground ml-4 rounded-md border-2 border-black px-4 py-2 font-medium transition-all hover:bg-current/10'>
+              {isLogin ? 'Profile Page' : 'Sign in'}
+            </Button>
+          </Link>
         </div>
       </div>
     </nav>

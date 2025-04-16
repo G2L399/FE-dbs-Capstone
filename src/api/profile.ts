@@ -2,7 +2,7 @@
 
 import axiosInstance from '@/lib/axios';
 
-export const getHistory = async (limit: number = 1) => {
+export const getHistory = async (limit?: number) => {
   const result = await axiosInstance.get('/destination/history', {
     params: { limit }
   });

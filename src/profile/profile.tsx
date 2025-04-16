@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Button } from '@shadcn/button';
-import { cn } from '../lib/utils';
+
 import { travelDestination, travelTicket } from '@/types/destination';
 
 interface UserProfile {
@@ -26,7 +25,7 @@ const defaultProfile: UserProfile = {
 function ProfilePage({
   history
 }: {
-  history: travelTicket<{ travelDestination: travelDestination }>[];
+  history: travelTicket<{ travelDestination: travelDestination<{}> }>[];
 }) {
   console.log(history);
 
@@ -51,23 +50,16 @@ function ProfilePage({
     }, 500);
   };
 
-  const handleBudgetChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setProfile((prev) => ({
-      ...prev,
-      budget: parseInt(e.target.value)
-    }));
-  };
-
   return (
     <div className='mx-auto max-w-4xl p-6'>
       <div className='space-y-6'>
-        <div className='rounded-xlp-6'>
+        <div className='rounded-xl'>
           <h2 className='mb-4 text-xl font-semibold'>Travel History</h2>
           <div className='space-y-4'>
             {history.map((destination, index) => (
               <div
                 key={index}
-                className='flex items-center rounded-lg bg-purple-700/30 p-3'
+                className='flex items-center rounded-lg bg-black/5 p-3 outline-2 outline-black/50'
               >
                 <div className='flex-1'>
                   <h3 className='font-medium'>
