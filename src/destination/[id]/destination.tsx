@@ -63,6 +63,12 @@ export default function Page({ destination }: { destination: Destination }) {
     };
     const result = await destinationPay(data);
     console.log(result);
+    if (result.success) {
+      alert(result.message);
+      window.location.href = '/home';
+    } else {
+      alert(result.message);
+    }
   };
 
   return (

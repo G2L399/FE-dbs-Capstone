@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 
 import { travelDestination, travelTicket } from '@/types/destination';
+import { Button } from '@/components/ui/button';
+import { deleteCookie } from '@/lib/cookie';
 
 interface UserProfile {
   travelTypes: string[];
@@ -30,8 +32,6 @@ function ProfilePage({
   console.log(history);
 
   const [profile, setProfile] = useState<UserProfile>(defaultProfile);
-  const [isSaving, setIsSaving] = useState(false);
-  const [showToast, setShowToast] = useState(false);
 
   useEffect(() => {
     const savedProfile = localStorage.getItem('userProfile');
@@ -40,21 +40,22 @@ function ProfilePage({
     }
   }, []);
 
-  const handleSave = () => {
-    setIsSaving(true);
-    localStorage.setItem('userProfile', JSON.stringify(profile));
-    setTimeout(() => {
-      setIsSaving(false);
-      setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
-    }, 500);
-  };
-
   return (
     <div className='mx-auto max-w-4xl p-6'>
       <div className='space-y-6'>
         <div className='rounded-xl'>
-          <h2 className='mb-4 text-xl font-semibold'>Travel History</h2>
+          <div className='flex items-center justify-between'>
+            <h2 className='mb-4 text-xl font-semibold'>Travel History</h2>
+            <Button
+              onClick={() => {
+                deleteCookie({ name: 'token' });
+                window.location.href = '/';
+              }}
+              className='text-foreground mb-4 flex justify-center border-2 border-black text-xl font-semibold hover:bg-current/10'
+            >
+              Sign Out
+            </Button>
+          </div>
           <div className='space-y-4'>
             {history.map((destination, index) => (
               <div
