@@ -51,12 +51,14 @@ export default function LoginPage() {
     try {
       const response = await login({ email, password });
 
-      if (response.error === 'Invalid email or password') {
-        toast.error('Wrong email or password', { id: toastId });
+      if (!response.success) {
+        toast.error(response.error, { id: toastId });
+        return;
+      } else {
+        toast.success('Login Successful', { id: toastId });
+        navigate('/dashboard');
       }
-
-      toast.success('Login Successful', { id: toastId });
-      navigate('/dashboard');
+      console.log(response);
     } catch (error) {
       toast.error('something went wrong, try again later', { id: toastId });
       console.error('Error during login:', error);
