@@ -82,7 +82,7 @@ function Navbar() {
             <a href='/hotels' className='font-medium hover:text-blue-600'>
               Hotel
             </a>
-            <a href='#' className='font-medium hover:text-blue-600'>
+            <a href='/tickets' className='font-medium hover:text-blue-600'>
               Tickets
             </a>
             <a href='#' className='font-medium hover:text-blue-600'>
