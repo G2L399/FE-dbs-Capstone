@@ -328,39 +328,52 @@ function Recommendation({
           </div>
         </div>
 
-        <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {recommendation.map((destination, index) => (
-            <div
-              key={index}
-              className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
-            >
-              <img
-                src={
-                  destination.travelPictureUrl ??
-                  '/assets/destination_placeholder.jpg?height=800&width=1200'
-                }
-                alt={destination.name}
-                className='max-h-48 w-full rounded-3xl object-cover'
-              />
+        {recommendation.length === 0 ? (
+          <div className='flex h-64 flex-col items-center justify-center rounded-lg border border-dashed border-gray-300 bg-gray-50'>
+            <p className='mb-2 text-lg font-medium text-gray-600'>
+              No recommendations yet
+            </p>
+            <p className='text-gray-500'>
+              Explore more destinations to get personalized recommendations
+            </p>
+          </div>
+        ) : (
+          <div className='grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            {recommendation.map((destination, index) => (
+              <div
+                key={index}
+                className='grid grid-rows-2 overflow-hidden rounded-lg border border-gray-100 bg-white p-4 shadow-sm transition-shadow hover:shadow-md'
+              >
+                <img
+                  src={
+                    destination.travelPictureUrl ??
+                    '/assets/destination_placeholder.jpg?height=800&width=1200'
+                  }
+                  alt={destination.name}
+                  className='max-h-48 w-full rounded-3xl object-cover'
+                />
 
-              <div className='mt-4 grid grid-cols-[3fr_1fr]'>
-                <div className='grid grid-cols-1 grid-rows-2'>
-                  <h3 className='text-xl font-semibold'>{destination.name}</h3>
+                <div className='mt-4 grid grid-cols-[3fr_1fr]'>
+                  <div className='grid grid-cols-1 grid-rows-2'>
+                    <h3 className='text-xl font-semibold'>
+                      {destination.name}
+                    </h3>
 
-                  <div className='flex items-end justify-between'>
-                    <span className='text-sm text-gray-500'>
-                      {destination.travelTickets.length} Tours,{' '}
-                      {destination.reviews.length} Activities
-                    </span>
+                    <div className='flex items-end justify-between'>
+                      <span className='text-sm text-gray-500'>
+                        {destination.travelTickets?.length || 0} Tours,{' '}
+                        {destination.reviews?.length || 0} Activities
+                      </span>
+                    </div>
+                  </div>
+                  <div className='flex items-end justify-end'>
+                    <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
                   </div>
                 </div>
-                <div className='flex items-end justify-end'>
-                  <ArrowRight className='size-8 rounded-full bg-black/10 p-1' />
-                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
