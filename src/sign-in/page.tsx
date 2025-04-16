@@ -3,6 +3,7 @@ import { Eye, EyeOff } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { login } from '@/api/login';
 import { getCookie } from '@/lib/cookie';
+import { toast } from 'sonner';
 
 export default function LoginPage() {
   const [email, setEmail] = useState('');
@@ -15,9 +16,9 @@ export default function LoginPage() {
 
   // Images for slideshow
   const images = [
-    '/api/placeholder/800/600', // Resort with pool
-    '/api/placeholder/800/600', // Another vacation spot
-    '/api/placeholder/800/600' // Third vacation spot
+    '/assets/resorts/res1.png',
+    '/assets/resorts/res2.png',
+    '/assets/resorts/res3.png'
   ];
 
   // Animation for elements coming in
@@ -45,19 +46,19 @@ export default function LoginPage() {
 
   const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Login with:', { email, password, rememberMe });
+    const toastId = toast.loading('Logging in...');
 
-    // Add your login logic here
     try {
       const response = await login({ email, password });
-      console.log(response);
 
-      if (response.success) {
-        navigate('/dashboard');
-      } else {
-        console.error('Login failed:', response.data.message);
+      if (response.error === 'Invalid email or password') {
+        toast.error('Wrong email or password', { id: toastId });
       }
+
+      toast.success('Login Successful', { id: toastId });
+      navigate('/dashboard');
     } catch (error) {
+      toast.error('something went wrong, try again later', { id: toastId });
       console.error('Error during login:', error);
     }
   };
@@ -68,7 +69,6 @@ export default function LoginPage() {
 
   return (
     <div className='flex min-h-screen bg-white'>
-      {/* Left side - Login Form */}
       <div
         className={`flex w-full flex-col justify-center p-8 transition-opacity duration-500 md:w-1/2 md:p-12 ${isLoading ? 'opacity-0' : 'opacity-100'}`}
       >
