@@ -49,7 +49,7 @@ export const destinationPay = async (data) => {
   try {
     console.log(data);
 
-    const result = await axiosInstance.post(`/destination/payment`, data);
+    const result = await axiosInstance.post(`/destination/pay`, data);
     return result.data;
   } catch (error) {
     console.log(error);
