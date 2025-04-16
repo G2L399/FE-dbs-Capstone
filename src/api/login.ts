@@ -2,7 +2,6 @@
 
 import axiosInstance from '@/lib/axios';
 import { setCookie } from '@/lib/cookie';
-import { AxiosResponse } from 'axios';
 
 export const login = async ({
   email,
@@ -11,15 +10,25 @@ export const login = async ({
   email: string;
   password: string;
 }) => {
-  const result = await axiosInstance.post('/login', {
-    email,
-    password
-  });
-  setCookie({
-    name: 'token',
-    value: result.data.token,
-    endDateFromNowInM: 60 * 24 * 7
-  });
+  try {
+    const result = await axiosInstance.post('/login', {
+      email,
+      password
+    });
 
-  return { data: result.data, success: true };
+    console.log(result.data);
+
+    setCookie({
+      name: 'token',
+      value: result.data.token,
+      endDateFromNowInM: 60 * 24 * 7
+    });
+
+    return { success: true, data: result.data };
+  } catch (error: any) {
+    if (error.response.status === 401) {
+      return { success: false, error: 'Invalid email or password' };
+    }
+    return { success: false, error: 'Login failed, try again later' };
+  }
 };
