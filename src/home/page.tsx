@@ -17,10 +17,13 @@ export default function page() {
       const recommendationResult = await getPlaceRecommendation(
         history.data.history[0].id
       );
-      recommendationResult.data.predictions.map(async (place: any) => {
-        const result = await getdestinationbyid(place.place_id);
-        setRecommendation((prev) => [...prev, result.destination]);
-      });
+      const recommendations = await Promise.all(
+        recommendationResult.data.predictions.map(
+          async (place: any) =>
+            (await getdestinationbyid(place.place_id)).destination
+        )
+      );
+      setRecommendation(recommendations);
     };
     fetchData();
   }, []);
